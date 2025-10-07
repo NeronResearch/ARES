@@ -28,17 +28,32 @@
 // ARM NEON SIMD support for Raspberry Pi
 #ifdef __ARM_NEON
 #include <arm_neon.h>
+#ifndef NEON_AVAILABLE
 #define NEON_AVAILABLE 1
+#endif
 #else
+#ifndef NEON_AVAILABLE
 #define NEON_AVAILABLE 0
 #endif
+#endif
 
-// SSE support for x86
+// SSE support for x86 (only if not ARM)
+#ifndef __ARM_ARCH
 #ifdef __SSE2__
 #include <immintrin.h>
+#ifndef SSE_AVAILABLE
 #define SSE_AVAILABLE 1
+#endif
 #else
+#ifndef SSE_AVAILABLE
 #define SSE_AVAILABLE 0
+#endif
+#endif
+#else
+// ARM architecture - disable SSE
+#ifndef SSE_AVAILABLE
+#define SSE_AVAILABLE 0
+#endif
 #endif
 
 // Hardware detection and adaptive algorithms

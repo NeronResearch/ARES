@@ -5,26 +5,31 @@
 
 echo "=== ARES Optimized Compiler Script ==="
 
-# Detect architecture
+# Detect architecture - compatible with both bash and sh
 ARCH=$(uname -m)
 IS_ARM=false
 IS_RASPBERRY_PI=false
 
-if [[ "$ARCH" == "aarch64" || "$ARCH" == "arm64" ]]; then
-    echo "Detected: ARM 64-bit (aarch64)"
-    IS_ARM=true
-    if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null; then
+# Check for ARM architecture (works in both bash and sh)
+case "$ARCH" in
+    aarch64|arm64)
+        echo "Detected: ARM 64-bit ($ARCH)"
+        IS_ARM=true
+        if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null; then
+            IS_RASPBERRY_PI=true
+            echo "Raspberry Pi 4 detected - applying Pi-specific optimizations"
+        fi
+        ;;
+    armv7l|armv6l|arm*)
+        echo "Detected: ARM 32-bit ($ARCH)"
+        IS_ARM=true
         IS_RASPBERRY_PI=true
-        echo "Raspberry Pi 4 detected - applying Pi-specific optimizations"
-    fi
-elif [[ "$ARCH" == "armv7l" || "$ARCH" == "armv6l" ]]; then
-    echo "Detected: ARM 32-bit ($ARCH)"
-    IS_ARM=true
-    IS_RASPBERRY_PI=true
-    echo "Raspberry Pi 3/Zero detected - applying Pi-specific optimizations"
-else
-    echo "Detected: x86/x64 architecture"
-fi
+        echo "Raspberry Pi 3/Zero detected - applying Pi-specific optimizations"
+        ;;
+    *)
+        echo "Detected: x86/x64 architecture ($ARCH)"
+        ;;
+esac
 
 # Base compiler settings
 CXX="g++"
@@ -39,24 +44,46 @@ if [ "$IS_ARM" = true ]; then
     
     if [ "$IS_RASPBERRY_PI" = true ]; then
         # Raspberry Pi specific optimizations
-        if [[ "$ARCH" == "aarch64" || "$ARCH" == "arm64" ]]; then
-            # Raspberry Pi 4 (Cortex-A72)
-            ARCH_FLAGS="-march=armv8-a+crc -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
-        else
-            # Raspberry Pi 3/Zero (Cortex-A53)
-            ARCH_FLAGS="-march=armv7-a -mtune=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard"
-        fi
+        case "$ARCH" in
+            aarch64|arm64)
+                # Raspberry Pi 4 (Cortex-A72) - 64-bit
+                ARCH_FLAGS="-march=armv8-a+crc -mtune=cortex-a72"
+                ARM_FLAGS="-mcpu=cortex-a72"
+                ;;
+            armv7l)
+                # Raspberry Pi 3 (Cortex-A53) - 32-bit
+                ARCH_FLAGS="-march=armv7-a -mtune=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard"
+                ARM_FLAGS="-mcpu=cortex-a53 -marm"
+                ;;
+            armv6l)
+                # Raspberry Pi Zero/1 (ARM1176)
+                ARCH_FLAGS="-march=armv6+fp -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
+                ARM_FLAGS="-mcpu=arm1176jzf-s -marm"
+                ;;
+            *)
+                # Generic ARM fallback
+                ARCH_FLAGS="-march=native -mtune=native"
+                ARM_FLAGS=""
+                ;;
+        esac
         
         # Pi-specific optimizations
-        ARM_FLAGS="-mcpu=native -mtune=native -marm -munaligned-access"
         PERFORMANCE_FLAGS="-ffast-math -funroll-loops -fprefetch-loop-arrays -fomit-frame-pointer"
         CACHE_FLAGS="-ffunction-sections -fdata-sections"
         LINKER_FLAGS="-Wl,--gc-sections"
         
-        # Enable NEON SIMD
-        DEFINES="$DEFINES -DARM_NEON -D__ARM_NEON"
+        # Enable NEON SIMD for supported Pi models
+        case "$ARCH" in
+            aarch64|arm64|armv7l)
+                DEFINES="$DEFINES -DARM_NEON -D__ARM_NEON -DNEON_AVAILABLE=1"
+                echo "NEON SIMD support enabled"
+                ;;
+            *)
+                DEFINES="$DEFINES -DNEON_AVAILABLE=0"
+                ;;
+        esac
         
-        echo "Raspberry Pi optimizations applied"
+        echo "Raspberry Pi optimizations applied for $ARCH"
         
     else
         # Generic ARM optimizations
@@ -65,6 +92,7 @@ if [ "$IS_ARM" = true ]; then
         PERFORMANCE_FLAGS="-ffast-math -funroll-loops"
         CACHE_FLAGS=""
         LINKER_FLAGS=""
+        DEFINES="$DEFINES -DARM_NEON -D__ARM_NEON -DNEON_AVAILABLE=1"
     fi
     
 else
@@ -76,8 +104,8 @@ else
     CACHE_FLAGS=""
     LINKER_FLAGS=""
     
-    # Enable SSE/AVX if available
-    DEFINES="$DEFINES -DSSE_AVAILABLE"
+    # Enable SSE/AVX if available (only for x86/x64)
+    DEFINES="$DEFINES -DSSE_AVAILABLE=1 -DNEON_AVAILABLE=0"
 fi
 
 # OpenMP support
@@ -124,6 +152,11 @@ echo "Optimization Level: $OPTIMIZATION"
 echo "ARM Optimizations: $IS_ARM"
 echo "Raspberry Pi: $IS_RASPBERRY_PI"
 echo "Output: $OUTPUT"
+echo ""
+echo "ARCH_FLAGS: $ARCH_FLAGS"
+echo "ARM_FLAGS: $ARM_FLAGS" 
+echo "PERFORMANCE_FLAGS: $PERFORMANCE_FLAGS"
+echo "DEFINES: $DEFINES"
 echo ""
 echo "CXXFLAGS: $ALL_CXXFLAGS"
 echo "LDFLAGS: $ALL_LDFLAGS"
