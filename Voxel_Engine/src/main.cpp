@@ -8,6 +8,7 @@
 #include "SparseVoxelMotion.h"
 #include "UnifiedVoxelExporter.h"
 #include "Scenario.h"
+#include "arm_benchmark.h"
 
 /**
  * @brief Performance comparison between dense and sparse implementations
@@ -99,16 +100,41 @@ int main(int argc, char** argv) {
     std::optional<VoxelMotionEngine::VoxelGrid> denseGrid1Opt, denseGrid2Opt;
     std::vector<VoxelMotionEngine::ChangeVoxel> denseVoxelChanges;
 
-    // ALGORITHM SELECTION (Default: Sparse)
-    bool preferDense = denseOnly;  // Only use dense if --dense flag is provided
+    // HARDWARE-ADAPTIVE PERFORMANCE OPTIMIZATION
+    auto systemInfo = ARMBenchmark::SystemInfo::detect();
+    systemInfo.print();
+    
+    // Run memory bandwidth test for cache optimization guidance
+    ARMBenchmark::MemoryBandwidthTest::runTest();
+    
+    // Get performance recommendations based on detected hardware
+    auto perfRec = ARMBenchmark::PerformanceRecommendations::generate(systemInfo);
+    perfRec.print();
+    
+    // Apply hardware-specific optimizations
+    bool preferDense = denseOnly;
+    
+    // Override parameters based on hardware capabilities
+    if (systemInfo.is_low_power) {
+        topPercentage = perfRec.recommended_top_percentage;
+        maxDistance = perfRec.recommended_max_distance;
+        
+        std::cout << "\nApplied low-power device optimizations:\n";
+        std::cout << "- Ray percentage: " << topPercentage << "%\n";
+        std::cout << "- Max distance: " << maxDistance << "m\n";
+    }
     
     std::cout << "\n=== ALGORITHM SELECTION ===\n";
     if (denseOnly) {
         std::cout << "Force dense mode (--dense flag)\n";
         std::cout << "Selected algorithm: DENSE (user specified)\n";
     } else {
-        std::cout << "Default sparse mode\n";
-        std::cout << "Selected algorithm: SPARSE (default, use --dense to override)\n";
+        std::cout << "Hardware-adaptive sparse mode\n";
+        std::cout << "Selected algorithm: SPARSE (";
+        if (systemInfo.is_arm) std::cout << "ARM-optimized";
+        if (systemInfo.has_neon) std::cout << " + NEON SIMD";
+        if (systemInfo.is_low_power) std::cout << " + Low-power tweaks";
+        std::cout << ")\n";
     }
 
     if (preferDense) {
