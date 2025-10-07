@@ -1,0 +1,7 @@
+cd E:\Code\Neron\ARES\Voxel_Engine
+rm -r build
+mkdir build
+cd build
+cmake -G "Visual Studio 17 2022" -A x64 ..
+cmake --build . --config Release
+..\bin\Release\VoxelEngine.exe E:\Code\Neron\ARES\Scenarios\Scenario2\scenario.json
