@@ -1,0 +1,91 @@
+{
+    "target_id": "drone",
+    "size_xyz_m": [
+        1.2702417373657227,
+        1.2702417373657227,
+        0.3810725212097168
+    ],
+    "frames": [
+        {
+            "frame": 0,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                150.0,
+                50.0,
+                100.0
+            ]
+        },
+        {
+            "frame": 1,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                149.0,
+                50.0,
+                100.0
+            ]
+        },
+        {
+            "frame": 2,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                148.0,
+                50.0,
+                100.0
+            ]
+        },
+                {
+            "frame": 24,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                126.0,
+                50.0,
+                100.0
+            ]
+        },
+        {
+            "frame": 25,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                125.0,
+                50.0,
+                100.0
+            ]
+        },
+        {
+            "frame": 26,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                124.0,
+                50.0,
+                100.0
+            ]
+        },
+                {
+            "frame": 0,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                150.0,
+                50.0,
+                100.0
+            ]
+        },
+        {
+            "frame": 1,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                149.0,
+                50.0,
+                100.0
+            ]
+        },
+        {
+            "frame": 2,
+            "timestamp_unix": 1735711200,
+            "position_m": [
+                148.0,
+                50.0,
+                100.0
+            ]
+        }
+    ]
+}

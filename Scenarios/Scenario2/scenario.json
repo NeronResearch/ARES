@@ -1,0 +1,46 @@
+{
+    "scenario_uuid": "4e45bfa2-1566-420d-be31-4459e8edd35c",
+    "scenario_version": 59,
+    "build_timestamp_unix": 1759795395,
+    "scenario_name": "Scenario2",
+    "frame_rate": 30,
+    "total_frames": 3,
+    "origin_lla": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "scenario_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\",
+    "cameras": [
+        {
+            "name": "Cam1_Top",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\Cam1_Top"
+        },
+        {
+            "name": "Cam2_Top",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\Cam2_Top"
+        },
+        {
+            "name": "Cam3_Top",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\Cam3_Top"
+        },
+        {
+            "name": "Cam4_Top",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\Cam4_Top"
+        },
+        {
+            "name": "Cam5_Top",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\Cam5_Top"
+        },
+        {
+            "name": "Cam6_Top",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\Cam6_Top"
+        }
+    ],
+    "targets": [
+        {
+            "name": "drone",
+            "file": "E:\\Code\\Neron\\ARES\\scenario_generator\\scenario2\\..\\..\\Scenarios\\Scenario2\\target_drone.json"
+        }
+    ]
+}

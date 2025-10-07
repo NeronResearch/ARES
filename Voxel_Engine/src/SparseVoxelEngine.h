@@ -391,22 +391,56 @@ public:
             
             // Safety check: ensure we have pixels to process
             if (totalPixelCount > 0 && targetPixelCount > 0) {
+                // First, try the normal approach
+                bool thresholdFound = false;
                 for (int i = HIST_BINS - 1; i >= 0; --i) {
                     cumulativeCount += brightnessHistogram[i].load();
                     if (cumulativeCount >= targetPixelCount) {
                         float calculatedThreshold = static_cast<float>(i) / (HIST_BINS - 1);
-                        // Ensure minimum threshold for ARM stability
-                        brightnessThreshold = std::max(0.15f, calculatedThreshold);
+                        
+                        // Adaptive threshold for ARM - be more permissive for dark images
+                        if (calculatedThreshold < 0.05f) {
+                            // Very dark image - use a much lower threshold
+                            brightnessThreshold = std::max(0.01f, calculatedThreshold);
+                        } else if (calculatedThreshold < 0.1f) {
+                            // Dark image - use lower threshold
+                            brightnessThreshold = std::max(0.05f, calculatedThreshold);
+                        } else {
+                            // Normal/bright image - use standard minimum
+                            brightnessThreshold = std::max(0.1f, calculatedThreshold);
+                        }
+                        thresholdFound = true;
                         break;
                     }
+                }
+                
+                // If we didn't find any pixels in higher bins, the image is very dark
+                if (!thresholdFound) {
+                    std::cout << "WARNING: Very dark image detected, using minimal threshold\n";
+                    brightnessThreshold = 0.01f;  // Process almost all pixels for very dark images
                 }
                 
                 // Debug output for ARM optimization
                 std::cout << "Histogram analysis: " << totalPixelCount << " pixels, target=" 
                           << targetPixelCount << " (" << topPercentage << "%)\n";
                 std::cout << "Cumulative count: " << cumulativeCount << "\n";
+                
+                // Show histogram distribution for debugging
+                std::cout << "Brightness distribution (top 8 bins): ";
+                for (int i = HIST_BINS - 1; i >= HIST_BINS - 8 && i >= 0; --i) {
+                    std::cout << "bin" << i << "=" << brightnessHistogram[i].load() << " ";
+                }
+                std::cout << "\n";
             } else {
                 std::cout << "WARNING: No pixels found, using default threshold\n";
+                brightnessThreshold = 0.05f;  // Very permissive fallback
+            }
+            
+            // Final safety check - if threshold is too high for dark images, reduce it
+            if (brightnessThreshold > 0.2f && totalPixelCount > 0) {
+                std::cout << "WARNING: Threshold too high (" << brightnessThreshold 
+                          << "), reducing to 0.1 for dark image compatibility\n";
+                brightnessThreshold = 0.1f;
             }
             
             std::cout << "ARM-optimized brightness threshold=" << brightnessThreshold << "\n";
