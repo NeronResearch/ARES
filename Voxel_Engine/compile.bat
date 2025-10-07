@@ -15,9 +15,9 @@ g++ -std=c++17 ^
     -fopenmp ^
     -flto ^
     -DNDEBUG -DARM_NEON ^
-    main.cpp PixelMotion.cpp ImageDenoise.cpp SkyDetector.cpp ^
-    VoxelEngine.cpp Scenario.cpp Camera.cpp Target.cpp VoxelMotion.cpp ^
-    -o main_optimized.exe ^
+    src/main.cpp src/PixelMotion.cpp src/ImageDenoise.cpp src/SkyDetector.cpp ^
+    src/VoxelEngine.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp src/VoxelMotion.cpp ^
+    -o main.exe ^
     %PKG_CONFIG_OPENCV% ^
     -ltbb -lm -lpthread
 
@@ -25,7 +25,7 @@ if %errorlevel% equ 0 (
     echo.
     echo === SUCCESS ===
     echo Compilation completed successfully!
-    echo Executable: main_optimized.exe
+    echo Executable: main.exe
     echo.
     echo Key optimizations applied:
     echo - Changed -O0 to -O3 (maximum optimization)

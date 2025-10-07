@@ -104,7 +104,7 @@ fi
 EXTERNAL_LIBS="-ltbb -lm -lpthread"
 
 # Source files
-SOURCES="main.cpp PixelMotion.cpp ImageDenoise.cpp SkyDetector.cpp VoxelEngine.cpp Scenario.cpp Camera.cpp Target.cpp VoxelMotion.cpp"
+SOURCES="src/main.cpp src/PixelMotion.cpp src/ImageDenoise.cpp src/SkyDetector.cpp src/VoxelEngine.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp src/VoxelMotion.cpp"
 
 # Output binary
 OUTPUT="main_optimized"
