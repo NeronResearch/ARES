@@ -2,19 +2,46 @@
 
 # Raspberry Pi 3B Optimized Compile Script
 # Specifically tuned for Pi 3B (Cortex-A53, 4 cores, 1GB RAM)
+# Supports both 32-bit (armv7l) and 64-bit (aarch64) modes
 
+# Detect architecture mode
+ARCH=$(uname -m)
 echo "=== Raspberry Pi 3B Optimized Compilation ==="
-echo "Target: BCM2837 SoC, Cortex-A53, ARMv7 32-bit"
+echo "Detected architecture: $ARCH"
+echo "Target: BCM2837 SoC, Cortex-A53"
 echo ""
 
 # Pi 3B specific compiler flags
 CXX="g++"
 OUTPUT="main_pi3b_optimized"
 
-# Cortex-A53 optimizations for Pi 3B
-ARCH_FLAGS="-march=armv7-a -mtune=cortex-a53 -mcpu=cortex-a53"
-NEON_FLAGS="-mfpu=neon-vfpv4 -mfloat-abi=hard"
-ARM_FLAGS="-marm -munaligned-access"
+# Architecture-specific optimizations for Pi 3B
+case "$ARCH" in
+    aarch64|arm64)
+        echo "64-bit ARM mode (aarch64) detected"
+        # 64-bit ARM flags for Pi 3B running in 64-bit mode
+        ARCH_FLAGS="-march=armv8-a -mtune=cortex-a53 -mcpu=cortex-a53"
+        NEON_FLAGS=""  # NEON is implicit in aarch64
+        ARM_FLAGS=""
+        DEFINES="-DNDEBUG -DARM_NEON -D__ARM_NEON -DNEON_AVAILABLE=1 -DRASPBERRY_PI_3B -DAARCH64"
+        ;;
+    armv7l)
+        echo "32-bit ARM mode (armv7l) detected"
+        # 32-bit ARM flags for Pi 3B running in 32-bit mode
+        ARCH_FLAGS="-march=armv7-a -mtune=cortex-a53 -mcpu=cortex-a53"
+        NEON_FLAGS="-mfpu=neon-vfpv4 -mfloat-abi=hard"
+        ARM_FLAGS="-marm -munaligned-access"
+        DEFINES="-DNDEBUG -DARM_NEON -D__ARM_NEON -DNEON_AVAILABLE=1 -DRASPBERRY_PI_3B -DARMV7L"
+        ;;
+    *)
+        echo "Unknown architecture: $ARCH"
+        echo "Assuming generic ARM settings..."
+        ARCH_FLAGS="-march=native -mtune=native"
+        NEON_FLAGS=""
+        ARM_FLAGS=""
+        DEFINES="-DNDEBUG -DARM_NEON -D__ARM_NEON -DNEON_AVAILABLE=1 -DRASPBERRY_PI_3B"
+        ;;
+esac
 
 # Conservative optimization for limited RAM (1GB)
 OPTIMIZATION="-O2"  # O2 instead of O3 to reduce compilation memory usage
@@ -26,9 +53,6 @@ MEMORY_FLAGS="-fno-stack-protector -fmerge-constants"
 
 # Conservative OpenMP (use 3 threads, leave 1 core free)
 OPENMP_FLAGS="-fopenmp"
-
-# Defines for Pi 3B
-DEFINES="-DNDEBUG -DARM_NEON -D__ARM_NEON -DNEON_AVAILABLE=1 -DRASPBERRY_PI_3B"
 
 # Link flags
 LINKER_FLAGS="-Wl,--gc-sections -Wl,-O1"
@@ -65,7 +89,8 @@ ALL_FLAGS="$ARCH_FLAGS $NEON_FLAGS $ARM_FLAGS $OPTIMIZATION $PERFORMANCE_FLAGS $
 ALL_LIBS="$OPENCV_FLAGS $TBB_LIBS -lm -lpthread"
 
 echo "Pi 3B Compilation Settings:"
-echo "- CPU: Cortex-A53 (ARMv7)"
+echo "- Architecture: $ARCH"
+echo "- CPU: Cortex-A53"
 echo "- NEON: Enabled"
 echo "- Threads: 3 (conservative)"
 echo "- Optimization: O2 (memory conscious)"
@@ -80,9 +105,10 @@ set -x
 
 $CXX -std=c++17 $ALL_FLAGS $SOURCES -o $OUTPUT $LINKER_FLAGS $ALL_LIBS
 
+COMPILE_RESULT=$?
 set +x
 
-if [ $? -eq 0 ]; then
+if [ $COMPILE_RESULT -eq 0 ] && [ -f "$OUTPUT" ]; then
     echo ""
     echo "=== SUCCESS ==="
     echo "Pi 3B optimized binary created: $OUTPUT"

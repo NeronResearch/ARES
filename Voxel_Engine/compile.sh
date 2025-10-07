@@ -46,13 +46,24 @@ if [ "$IS_ARM" = true ]; then
         # Raspberry Pi specific optimizations
         case "$ARCH" in
             aarch64|arm64)
-                # Raspberry Pi 4 (Cortex-A72) - 64-bit
-                ARCH_FLAGS="-march=armv8-a+crc -mtune=cortex-a72"
-                ARM_FLAGS="-mcpu=cortex-a72"
+                # Check if this is Pi 3B in 64-bit mode or Pi 4
+                if grep -q "Raspberry Pi 3" /proc/cpuinfo 2>/dev/null; then
+                    echo "Raspberry Pi 3B (64-bit mode) detected - applying Cortex-A53 optimizations"
+                    ARCH_FLAGS="-march=armv8-a -mtune=cortex-a53"
+                    ARM_FLAGS="-mcpu=cortex-a53"
+                    # Pi 3B specific optimizations
+                    PERFORMANCE_FLAGS="-ffast-math -funroll-loops -fprefetch-loop-arrays -fomit-frame-pointer -ftree-vectorize"
+                    CACHE_FLAGS="-ffunction-sections -fdata-sections -falign-functions=32"
+                else
+                    # Assume Raspberry Pi 4 (Cortex-A72) - 64-bit
+                    echo "Raspberry Pi 4 detected - applying Cortex-A72 optimizations"
+                    ARCH_FLAGS="-march=armv8-a+crc -mtune=cortex-a72"
+                    ARM_FLAGS="-mcpu=cortex-a72"
+                fi
                 ;;
             armv7l)
                 # Raspberry Pi 3B (Cortex-A53) - 32-bit ARMv7
-                echo "Raspberry Pi 3B detected - applying Cortex-A53 optimizations"
+                echo "Raspberry Pi 3B (32-bit mode) detected - applying Cortex-A53 optimizations"
                 ARCH_FLAGS="-march=armv7-a -mtune=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard"
                 ARM_FLAGS="-mcpu=cortex-a53 -marm -munaligned-access"
                 # Pi 3B specific optimizations
