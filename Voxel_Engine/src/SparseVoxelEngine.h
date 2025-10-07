@@ -386,15 +386,27 @@ public:
             // Calculate threshold with reduced precision for ARM
             int totalPixelCount = totalPixels.load();
             int targetPixelCount = static_cast<int>(totalPixelCount * topPercentage / 100.0f);
-            float brightnessThreshold = 0.5f;
+            float brightnessThreshold = 0.3f;  // Safe default minimum
             int cumulativeCount = 0;
             
-            for (int i = HIST_BINS - 1; i >= 0; --i) {
-                cumulativeCount += brightnessHistogram[i].load();
-                if (cumulativeCount >= targetPixelCount) {
-                    brightnessThreshold = static_cast<float>(i) / (HIST_BINS - 1);
-                    break;
+            // Safety check: ensure we have pixels to process
+            if (totalPixelCount > 0 && targetPixelCount > 0) {
+                for (int i = HIST_BINS - 1; i >= 0; --i) {
+                    cumulativeCount += brightnessHistogram[i].load();
+                    if (cumulativeCount >= targetPixelCount) {
+                        float calculatedThreshold = static_cast<float>(i) / (HIST_BINS - 1);
+                        // Ensure minimum threshold for ARM stability
+                        brightnessThreshold = std::max(0.15f, calculatedThreshold);
+                        break;
+                    }
                 }
+                
+                // Debug output for ARM optimization
+                std::cout << "Histogram analysis: " << totalPixelCount << " pixels, target=" 
+                          << targetPixelCount << " (" << topPercentage << "%)\n";
+                std::cout << "Cumulative count: " << cumulativeCount << "\n";
+            } else {
+                std::cout << "WARNING: No pixels found, using default threshold\n";
             }
             
             std::cout << "ARM-optimized brightness threshold=" << brightnessThreshold << "\n";
@@ -422,14 +434,22 @@ public:
                         // SIMD-optimized brightness checking when available
                         for (int y = by; y < maxY; y += rayStep) {
                             for (int x = bx; x < maxX; x += rayStep) {
+                                // Safety bounds checking
+                                if (x >= cam.getImageWidth() || y >= cam.getImageHeight()) continue;
+                                
                                 float brightness = cam.getPixelBrightness(x, y);
                                 
-                                // Branch prediction friendly comparison
-                                if (__builtin_expect(brightness < brightnessThreshold, 1)) continue;
+                                // ARM-optimized brightness filtering with safety check
+                                if (__builtin_expect(brightness < brightnessThreshold || brightness <= 0.0f, 1)) continue;
                                 
-                                Ray ray = cam.generateRay(x, y);
-                                bool found = CastRayAndAccumulateARM(voxelGrid, ray.origin, ray.direction, maxDistance, brightness, camIdx);
-                                raysThisCamera += found ? 1 : 0;
+                                try {
+                                    Ray ray = cam.generateRay(x, y);
+                                    bool found = CastRayAndAccumulateARM(voxelGrid, ray.origin, ray.direction, maxDistance, brightness, camIdx);
+                                    raysThisCamera += found ? 1 : 0;
+                                } catch (...) {
+                                    // Silently skip problematic rays on ARM
+                                    continue;
+                                }
                             }
                         }
                     }
@@ -498,29 +518,41 @@ public:
 
             float traveled = 0.0f;
             
-            // ARM-optimized bounds checking with reduced frequency
-            constexpr int BOUNDS_CHECK_FREQ = 16; // Less frequent bounds checking on ARM
+            // ARM-optimized bounds checking - more frequent for stability
+            constexpr int BOUNDS_CHECK_FREQ = 4; // More frequent bounds checking for ARM stability
             int boundsCounter = 0;
+            int iterationCount = 0;
             
-            // ARM cache-friendly loop with manual unrolling hint
-            while (__builtin_expect(traveled <= maxDistance, 1)) {
-                // Reduced bounds checking for ARM performance
+            // ARM cache-friendly loop with safety limits
+            while (__builtin_expect(traveled <= maxDistance && iterationCount < 10000, 1)) {
+                iterationCount++;
+                
+                // More frequent bounds checking for ARM stability
                 if (__builtin_expect(++boundsCounter >= BOUNDS_CHECK_FREQ, 0)) {
                     if (x < 0 || x >= sx || y < 0 || y >= sy || z < 2 || z >= sz) break;
                     boundsCounter = 0;
                 }
 
-                // ARM-optimized voxel access with prefetching hint
-                auto& voxel = grid.getOrCreateVoxel(x, y, z);
+                // ARM-optimized voxel access with exception safety
+                try {
+                    auto& voxel = grid.getOrCreateVoxel(x, y, z);
                 
-                // Optimized intersection checking for ARM
-                const auto& intersections = voxel.getCameraIntersections();
-                const bool newCamera = intersections.find(cameraId) == intersections.end();
+                    // Optimized intersection checking for ARM
+                    const auto& intersections = voxel.getCameraIntersections();
+                    const bool newCamera = intersections.find(cameraId) == intersections.end();
+                    
+                    if (__builtin_expect(newCamera && !intersections.empty(), 0)) {
+                        foundIntersection = true;
+                    }
+                    voxel.addCameraIntersection(cameraId, intensity);
                 
-                if (__builtin_expect(newCamera && !intersections.empty(), 0)) {
-                    foundIntersection = true;
+                } catch (const std::exception& e) {
+                    // Skip this voxel if there's an access error
+                    break;
+                } catch (...) {
+                    // Skip this voxel for any other error
+                    break;
                 }
-                voxel.addCameraIntersection(cameraId, intensity);
 
                 // ARM-optimized stepping with fewer branches
                 if (tMaxX <= tMaxY && tMaxX <= tMaxZ) {

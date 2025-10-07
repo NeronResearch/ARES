@@ -147,10 +147,10 @@ namespace ARMBenchmark {
                 if (info.cpu_cores == 4 && info.cpu_name.find("Pi") != std::string::npos) {
                     // Raspberry Pi 3B specific optimizations (4 cores, Cortex-A53)
                     rec.recommended_threads = 3;  // Leave one core for system
-                    rec.recommended_ray_step = 12; // Very aggressive ray reduction
-                    rec.recommended_block_size = 24; // Smaller blocks for L1 cache
-                    rec.recommended_top_percentage = 1.0f;  // Only process brightest 1%
-                    rec.recommended_max_distance = 50.0f;   // Very short rays
+                    rec.recommended_ray_step = 8; // Less aggressive ray reduction for stability
+                    rec.recommended_block_size = 32; // Larger blocks for stability
+                    rec.recommended_top_percentage = 2.5f;  // Process more pixels for stability
+                    rec.recommended_max_distance = 75.0f;   // Moderate ray distance
                     rec.use_reduced_precision = true;
                 } else {
                     // Generic low-power device
