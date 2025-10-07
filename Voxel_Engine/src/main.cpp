@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
     std::cout << "Frame 25 target: (" << target2.getCurrentPosition().getX() << ", " << target2.getCurrentPosition().getY() << ", " << target2.getCurrentPosition().getZ() << ")\n";
 
     PerformanceComparison comparison;
-    float topPercentage = 1.0f;
+    float topPercentage = 30.0f;  // Increased for ultra-dark surveillance images
     float maxDistance = 100.0f;
     
     // Dense processing variables (used for export)

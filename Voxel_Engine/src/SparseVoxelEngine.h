@@ -342,6 +342,7 @@ public:
             // Hardware-adaptive configuration
             const int numCores = std::thread::hardware_concurrency();
             const bool isLowPowerDevice = (numCores <= 4);
+            const bool isHighPerformanceDevice = (numCores > 8);
             
             // ARM-optimized histogram with reduced contention
             constexpr int HIST_BINS = 32; // Reduced for better cache performance on ARM
@@ -352,8 +353,8 @@ public:
                 bin.store(0, std::memory_order_relaxed);
             }
             
-            // Adaptive sampling for Raspberry Pi
-            const int megaSample = isLowPowerDevice ? 64 : 32; // Larger samples for ARM
+            // Adaptive sampling - optimized for dark image analysis on all platforms
+            const int megaSample = isLowPowerDevice ? 32 : (isHighPerformanceDevice ? 8 : 16); // Smaller samples for better dark image analysis
             const int numThreads = isLowPowerDevice ? std::max(1, numCores - 1) : numCores;
             
             #pragma omp parallel for num_threads(numThreads) schedule(static)
@@ -398,10 +399,16 @@ public:
                     if (cumulativeCount >= targetPixelCount) {
                         float calculatedThreshold = static_cast<float>(i) / (HIST_BINS - 1);
                         
-                        // Adaptive threshold for ARM - be more permissive for dark images
-                        if (calculatedThreshold < 0.05f) {
+                        // Adaptive threshold - be more permissive for dark surveillance images
+                        
+                        // Check if this is an ultra-dark surveillance image (>99% in bin0)
+                        float bin0Ratio = static_cast<float>(brightnessHistogram[0].load()) / totalPixelCount;
+                        if (bin0Ratio > 0.99f) {
+                            std::cout << "ULTRA-DARK surveillance image: " << (bin0Ratio * 100) << "% in darkest bin\n";
+                            brightnessThreshold = 0.0001f;  // Process pixels ≥ 0.025/255 (any non-zero pixel)
+                        } else if (calculatedThreshold < 0.05f) {
                             // Very dark image - use a much lower threshold
-                            brightnessThreshold = std::max(0.01f, calculatedThreshold);
+                            brightnessThreshold = std::max(0.005f, calculatedThreshold);
                         } else if (calculatedThreshold < 0.1f) {
                             // Dark image - use lower threshold
                             brightnessThreshold = std::max(0.05f, calculatedThreshold);
@@ -416,8 +423,21 @@ public:
                 
                 // If we didn't find any pixels in higher bins, the image is very dark
                 if (!thresholdFound) {
-                    std::cout << "WARNING: Very dark image detected, using minimal threshold\n";
-                    brightnessThreshold = 0.01f;  // Process almost all pixels for very dark images
+                    std::cout << "WARNING: Ultra-dark surveillance image detected\n";
+                    
+                    // Check if virtually all pixels are in bin0 (ultra-dark)
+                    float bin0Ratio = static_cast<float>(brightnessHistogram[0].load()) / totalPixelCount;
+                    if (bin0Ratio > 0.99f) {
+                        std::cout << "ULTRA-DARK MODE: " << (bin0Ratio * 100) << "% of pixels in darkest bin\n";
+                        brightnessThreshold = 0.0001f;  // Process pixels ≥ 0.025/255 (any non-zero pixel)
+                        topPercentage = 50.0f;  // Process top 50% for ultra-dark surveillance images
+                    } else {
+                        brightnessThreshold = 0.001f;  // Standard dark processing
+                        topPercentage = std::min(10.0f, topPercentage * 3.0f);
+                    }
+                    
+                    std::cout << "Adjusted: threshold=" << brightnessThreshold << ", percentage=" << topPercentage << "%\n";
+                    targetPixelCount = static_cast<int>(totalPixelCount * topPercentage / 100.0f);
                 }
                 
                 // Debug output for ARM optimization
@@ -431,34 +451,81 @@ public:
                     std::cout << "bin" << i << "=" << brightnessHistogram[i].load() << " ";
                 }
                 std::cout << "\n";
+                
+                // If all top bins are empty, show bottom bins too
+                bool hasHighBrightness = false;
+                for (int i = HIST_BINS - 1; i >= HIST_BINS / 2; --i) {
+                    if (brightnessHistogram[i].load() > 0) {
+                        hasHighBrightness = true;
+                        break;
+                    }
+                }
+                
+                if (!hasHighBrightness) {
+                    std::cout << "Dark image - showing bottom bins: ";
+                    for (int i = 7; i >= 0; --i) {
+                        std::cout << "bin" << i << "=" << brightnessHistogram[i].load() << " ";
+                    }
+                    std::cout << "\n";
+                }
             } else {
                 std::cout << "WARNING: No pixels found, using default threshold\n";
                 brightnessThreshold = 0.05f;  // Very permissive fallback
             }
             
-            // Final safety check - if threshold is too high for dark images, reduce it
+            // Final safety check and dark image optimization
             if (brightnessThreshold > 0.2f && totalPixelCount > 0) {
                 std::cout << "WARNING: Threshold too high (" << brightnessThreshold 
                           << "), reducing to 0.1 for dark image compatibility\n";
                 brightnessThreshold = 0.1f;
             }
             
-            std::cout << "ARM-optimized brightness threshold=" << brightnessThreshold << "\n";
+            std::cout << "Optimized brightness threshold=" << brightnessThreshold << "\n";
             
             std::atomic<int> totalRaysProcessed(0);
             
-            // Adaptive ray stepping for different hardware
-            const int rayStep = isLowPowerDevice ? 8 : 4; // Fewer rays on ARM
+            // Adaptive ray stepping based on hardware AND image brightness
+            int rayStep = isLowPowerDevice ? 8 : (isHighPerformanceDevice ? 2 : 4); // Start with hardware-based default
+            
+            // For surveillance/security cameras, images are often very dark
+            // If we're still not processing enough rays, be more aggressive
+            float expectedRayCount = totalPixelCount * topPercentage / 100.0f / (rayStep * rayStep);
+            if (expectedRayCount < 1000) {  // Less than 1000 rays expected
+                std::cout << "DARK IMAGE MODE: Expected only " << expectedRayCount << " rays, being more aggressive\n";
+                
+                // Check if we're dealing with mostly bin0+bin1 images (surveillance cameras)
+                int bin0Count = brightnessHistogram[0].load();
+                int bin1Count = brightnessHistogram[1].load();
+                float lowBinRatio = static_cast<float>(bin0Count + bin1Count) / totalPixelCount;
+                
+                if (lowBinRatio > 0.99f && bin1Count > 0) {
+                    std::cout << "Surveillance camera mode: processing bin1 pixels (threshold=0.03125)\n";
+                    brightnessThreshold = 0.03125f;  // Exactly bin1 threshold (1/32)
+                } else {
+                    brightnessThreshold = std::min(brightnessThreshold, 0.005f);
+                }
+            }
+            
+            // For very dark images, use smaller ray steps to catch more detail
+            if (brightnessThreshold < 0.001f) {
+                rayStep = 1;  // Maximum density for ultra-dark images
+                std::cout << "Ultra-dark image: using rayStep=1 for maximum coverage\n";
+            } else if (brightnessThreshold < 0.01f) {
+                rayStep = std::max(2, rayStep / 2);  // More dense ray sampling for dark images
+                std::cout << "Dark image detected: reducing ray step to " << rayStep << " for better coverage\n";
+            }
             
             #pragma omp parallel for num_threads(numThreads) schedule(dynamic, 1) 
             for (int camIdx = 0; camIdx < static_cast<int>(cameras.size()); ++camIdx) {
                 const auto& cam = cameras[camIdx];
                 int raysThisCamera = 0;
                 
-                // ARM cache-optimized block sizes
+                // Hardware-optimized block sizes for all platforms
                 const int blockSize = isLowPowerDevice ? 
                     std::min(64, std::max(16, cam.getImageWidth() / 8)) :
-                    std::min(128, std::max(32, cam.getImageWidth() / 16));
+                    (isHighPerformanceDevice ? 
+                        std::min(256, std::max(64, cam.getImageWidth() / 8)) :
+                        std::min(128, std::max(32, cam.getImageWidth() / 16)));
                 
                 for (int by = 0; by < cam.getImageHeight(); by += blockSize) {
                     for (int bx = 0; bx < cam.getImageWidth(); bx += blockSize) {
@@ -473,15 +540,25 @@ public:
                                 
                                 float brightness = cam.getPixelBrightness(x, y);
                                 
+                                // Debug: Log some bright pixels found
+                                static int debugCount = 0;
+                                if (brightness > 0.0f && debugCount < 10) {
+                                    std::cout << "DEBUG: Found non-zero pixel at (" << x << "," << y << ") brightness=" << brightness << " threshold=" << brightnessThreshold << "\n";
+                                    debugCount++;
+                                }
+                                
                                 // ARM-optimized brightness filtering with safety check
                                 if (__builtin_expect(brightness < brightnessThreshold || brightness <= 0.0f, 1)) continue;
                                 
                                 try {
                                     Ray ray = cam.generateRay(x, y);
-                                    bool found = CastRayAndAccumulateARM(voxelGrid, ray.origin, ray.direction, maxDistance, brightness, camIdx);
+                                    // Use optimized ray casting for all platforms with dark images
+                                    bool found = (brightnessThreshold < 0.05f) ? 
+                                        CastRayAndAccumulateARM(voxelGrid, ray.origin, ray.direction, maxDistance, brightness, camIdx) :
+                                        CastRayAndAccumulate(voxelGrid, ray.origin, ray.direction, maxDistance, brightness, camIdx);
                                     raysThisCamera += found ? 1 : 0;
                                 } catch (...) {
-                                    // Silently skip problematic rays on ARM
+                                    // Silently skip problematic rays
                                     continue;
                                 }
                             }
@@ -495,7 +572,7 @@ public:
                 }
             }
             
-            std::cout << "ARM-processed " << totalRaysProcessed.load() << " rays\n";
+            std::cout << "Processed " << totalRaysProcessed.load() << " rays (dark-image optimized)\n";
             
             voxelGrid.finalizeAllIntersections();
         }
