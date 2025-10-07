@@ -154,9 +154,9 @@ EXTERNAL_LIBS="-ltbb -lm -lpthread"
 SOURCES="src/main.cpp src/PixelMotion.cpp src/ImageDenoise.cpp src/SkyDetector.cpp src/VoxelEngine.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp src/VoxelMotion.cpp"
 
 # Output binary
-OUTPUT="main_optimized"
+OUTPUT="bin/main_arm_pi_3b"
 if [ "$IS_RASPBERRY_PI" = true ]; then
-    OUTPUT="main_pi_optimized"
+    OUTPUT="bin/main_arm_pi_3b"
 fi
 
 # Combine all flags
