@@ -36,9 +36,43 @@ namespace ARMBenchmark {
             
             // Try to detect Raspberry Pi specifically
             info.cpu_name = "Unknown";
+            
             #ifdef __arm__
-            if (info.cpu_cores == 4 && info.is_low_power) {
-                info.cpu_name = "Raspberry Pi (likely)";
+            // Read /proc/cpuinfo to identify Pi model
+            std::ifstream cpuinfo("/proc/cpuinfo");
+            if (cpuinfo.is_open()) {
+                std::string line;
+                while (std::getline(cpuinfo, line)) {
+                    if (line.find("Hardware") != std::string::npos && line.find("BCM") != std::string::npos) {
+                        if (info.cpu_cores == 4) {
+                            // Check for Pi 3B vs Pi 4 by revision or model
+                            cpuinfo.clear();
+                            cpuinfo.seekg(0);
+                            while (std::getline(cpuinfo, line)) {
+                                if (line.find("Model") != std::string::npos) {
+                                    if (line.find("Raspberry Pi 3") != std::string::npos) {
+                                        info.cpu_name = "Raspberry Pi 3B";
+                                        break;
+                                    } else if (line.find("Raspberry Pi 4") != std::string::npos) {
+                                        info.cpu_name = "Raspberry Pi 4";
+                                        break;
+                                    }
+                                }
+                            }
+                            if (info.cpu_name == "Unknown") {
+                                info.cpu_name = "Raspberry Pi 3/4 (4-core)";
+                            }
+                        } else if (info.cpu_cores == 1) {
+                            info.cpu_name = "Raspberry Pi Zero/1";
+                        } else {
+                            info.cpu_name = "Raspberry Pi (detected)";
+                        }
+                        break;
+                    }
+                }
+                cpuinfo.close();
+            } else if (info.cpu_cores == 4 && info.is_low_power) {
+                info.cpu_name = "Raspberry Pi (likely 3B/4)";
             }
             #endif
             
@@ -110,12 +144,23 @@ namespace ARMBenchmark {
             
             if (info.is_low_power) {
                 // Raspberry Pi optimizations
-                rec.recommended_threads = std::max(1, info.cpu_cores - 1);
-                rec.recommended_ray_step = 8;  // Fewer rays
-                rec.recommended_block_size = 32;
-                rec.recommended_top_percentage = 1.5f;  // Very selective
-                rec.recommended_max_distance = 60.0f;   // Shorter rays
-                rec.use_reduced_precision = true;
+                if (info.cpu_cores == 4 && info.cpu_name.find("Pi") != std::string::npos) {
+                    // Raspberry Pi 3B specific optimizations (4 cores, Cortex-A53)
+                    rec.recommended_threads = 3;  // Leave one core for system
+                    rec.recommended_ray_step = 12; // Very aggressive ray reduction
+                    rec.recommended_block_size = 24; // Smaller blocks for L1 cache
+                    rec.recommended_top_percentage = 1.0f;  // Only process brightest 1%
+                    rec.recommended_max_distance = 50.0f;   // Very short rays
+                    rec.use_reduced_precision = true;
+                } else {
+                    // Generic low-power device
+                    rec.recommended_threads = std::max(1, info.cpu_cores - 1);
+                    rec.recommended_ray_step = 8;  // Fewer rays
+                    rec.recommended_block_size = 32;
+                    rec.recommended_top_percentage = 1.5f;  // Very selective
+                    rec.recommended_max_distance = 60.0f;   // Shorter rays
+                    rec.use_reduced_precision = true;
+                }
             } else if (info.cpu_cores <= 8) {
                 // Mid-range systems
                 rec.recommended_threads = info.cpu_cores;

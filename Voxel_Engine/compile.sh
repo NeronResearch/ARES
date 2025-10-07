@@ -51,9 +51,13 @@ if [ "$IS_ARM" = true ]; then
                 ARM_FLAGS="-mcpu=cortex-a72"
                 ;;
             armv7l)
-                # Raspberry Pi 3 (Cortex-A53) - 32-bit
+                # Raspberry Pi 3B (Cortex-A53) - 32-bit ARMv7
+                echo "Raspberry Pi 3B detected - applying Cortex-A53 optimizations"
                 ARCH_FLAGS="-march=armv7-a -mtune=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard"
-                ARM_FLAGS="-mcpu=cortex-a53 -marm"
+                ARM_FLAGS="-mcpu=cortex-a53 -marm -munaligned-access"
+                # Pi 3B specific optimizations
+                PERFORMANCE_FLAGS="-ffast-math -funroll-loops -fprefetch-loop-arrays -fomit-frame-pointer -ftree-vectorize"
+                CACHE_FLAGS="-ffunction-sections -fdata-sections -falign-functions=32"
                 ;;
             armv6l)
                 # Raspberry Pi Zero/1 (ARM1176)
@@ -67,9 +71,13 @@ if [ "$IS_ARM" = true ]; then
                 ;;
         esac
         
-        # Pi-specific optimizations
-        PERFORMANCE_FLAGS="-ffast-math -funroll-loops -fprefetch-loop-arrays -fomit-frame-pointer"
-        CACHE_FLAGS="-ffunction-sections -fdata-sections"
+        # Pi-specific optimizations (set defaults, may be overridden by specific Pi model above)
+        if [ "$PERFORMANCE_FLAGS" = "" ]; then
+            PERFORMANCE_FLAGS="-ffast-math -funroll-loops -fprefetch-loop-arrays -fomit-frame-pointer"
+        fi
+        if [ "$CACHE_FLAGS" = "" ]; then
+            CACHE_FLAGS="-ffunction-sections -fdata-sections"
+        fi
         LINKER_FLAGS="-Wl,--gc-sections"
         
         # Enable NEON SIMD for supported Pi models
