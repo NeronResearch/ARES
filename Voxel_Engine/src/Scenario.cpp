@@ -150,9 +150,9 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, SkyDetector& 
 
     std::cout << "frame buff " << frameBuffer << " prev " << prevFrameBuffer << std::endl;
     
-    std::string img1 = framesDir + "\\" + frameBuffer + ".jpg";
-    std::string img2 = framesDir + "\\" + prevFrameBuffer + ".jpg";
-    std::string jsonPath = framesDir + "\\" + frameBuffer + ".json";
+    std::string img1 = framesDir + "/" + frameBuffer + ".jpg";
+    std::string img2 = framesDir + "/" + prevFrameBuffer + ".jpg";
+    std::string jsonPath = framesDir + "/" + frameBuffer + ".json";
 
     std::cout << "Loading camera: " << cameraName << " with images: " << img1 << " and " << img2 << std::endl;
 

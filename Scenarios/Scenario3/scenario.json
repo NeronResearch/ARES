@@ -10,25 +10,25 @@
         0.0,
         0.0
     ],
-    "scenario_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\",
+    "scenario_dir": "/home/connor/Code/ARES/Scenarios/Scenario3",
     "cameras": [
         {
             "name": "Camera",
-            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\Camera"
+            "frames_dir": "/home/connor/Code/ARES/Scenarios/Scenario3/Camera"
         },
         {
             "name": "Camera.002",
-            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\Camera.002"
+            "frames_dir": "/home/connor/Code/ARES/Scenarios/Scenario3/Camera.002"
         },
         {
             "name": "Camera.003",
-            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\Camera.003"
+            "frames_dir": "/home/connor/Code/ARES/Scenarios/Scenario3/Camera.003"
         }
     ],
     "targets": [
         {
             "name": "Drone",
-            "file": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\target_Drone.json"
+            "file": "/home/connor/Code/ARES/Scenarios/Scenario3/target_Drone.json"
         }
     ]
 }
