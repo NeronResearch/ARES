@@ -4,13 +4,22 @@
 #include <thread>
 #include <future>
 #include <algorithm>
+
+#define STB_IMAGE_IMPLEMENTATION
 #include "../third_party/stb_image.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../third_party/stb_image_write.h"
 
-Scenario::Scenario(const std::string& scenarioPath, int frame) : frame(frame) {
+Scenario::Scenario(const std::string& scenarioPath, int frame1, int frame2) : frame1(frame1), frame2(frame2) {
     json scenarioData = loadScenarioFile(scenarioPath);
-    targets = loadTargets(scenarioData);
-    cameras = loadCameras(scenarioData);
+    
+    // Load targets for both frames
+    targets1 = loadTargets(scenarioData, frame1);
+    targets2 = loadTargets(scenarioData, frame2);
+    
+    // Load cameras for both frames (this will process motion between consecutive frames for each)
+    cameras1 = loadCameras(scenarioData, frame1);
+    cameras2 = loadCameras(scenarioData, frame2);
 }
 
 json Scenario::loadScenarioFile(const std::string& scenarioPath) {
@@ -33,7 +42,7 @@ json Scenario::loadScenarioFile(const std::string& scenarioPath) {
     return scenarioData;
 }
 
-std::vector<Target> Scenario::loadTargets(const json& scenarioData) {
+std::vector<Target> Scenario::loadTargets(const json& scenarioData, int frame) {
     std::vector<Target> targets;
     if (scenarioData.contains("targets")) {
         for (const auto& targetInfo : scenarioData["targets"]) {
@@ -70,7 +79,10 @@ std::vector<Target> Scenario::loadTargets(const json& scenarioData) {
                 );
                 targets.emplace_back(targetPos);
                 std::string targetName = targetInfo["name"].get<std::string>();
-                targetNames.emplace_back(targetName);
+                // Only add target names once (for the first frame)
+                if (frame == frame1) {
+                    targetNames.emplace_back(targetName);
+                }
                 std::cout << "Target: " << targetName 
                           << " at (" << targetPos.getX() << ", " << targetPos.getY() << ", " << targetPos.getZ() << ") for frame " << frame << "\n";
             }
@@ -85,14 +97,14 @@ std::vector<Target> Scenario::loadTargets(const json& scenarioData) {
     return targets;
 }
 
-std::vector<Camera> Scenario::loadCameras(const json& scenarioData) {
+std::vector<Camera> Scenario::loadCameras(const json& scenarioData, int frame) {
     if (!scenarioData.contains("cameras")) return {};
 
     const auto& camerasJson = scenarioData["cameras"];
     std::vector<Camera> cameras;
     cameras.reserve(camerasJson.size());
     
-    std::cout << "Loading " << camerasJson.size() << " cameras...\n";
+    std::cout << "Loading " << camerasJson.size() << " cameras for frame " << frame << "...\n";
     
     // Timing for overall image processing
     auto totalProcessingStart = std::chrono::high_resolution_clock::now();
@@ -101,8 +113,8 @@ std::vector<Camera> Scenario::loadCameras(const json& scenarioData) {
     futures.reserve(camerasJson.size());
 
     for (const auto& cameraInfo : camerasJson) {
-        futures.emplace_back(std::async(std::launch::async, [this](const json& info) -> std::optional<Camera> {
-            return loadCamera(info, skyDetector);
+        futures.emplace_back(std::async(std::launch::async, [this, frame](const json& info) -> std::optional<Camera> {
+            return loadCamera(info, frame);
         }, cameraInfo));
     }
 
@@ -116,15 +128,43 @@ std::vector<Camera> Scenario::loadCameras(const json& scenarioData) {
     auto totalProcessingEnd = std::chrono::high_resolution_clock::now();
     auto totalProcessingTime = std::chrono::duration_cast<std::chrono::milliseconds>(totalProcessingEnd - totalProcessingStart);
     
-    std::cout << "Loaded " << cameras.size() << " cameras" << std::endl;
-    std::cout << "=== IMAGE PROCESSING TIMING ===\n";
+    std::cout << "Loaded " << cameras.size() << " cameras for frame " << frame << std::endl;
+    std::cout << "=== IMAGE PROCESSING TIMING (Frame " << frame << ") ===\n";
     std::cout << "Total image loading & processing: " << totalProcessingTime.count() << "ms\n";
     std::cout << "==============================\n";
     
     return cameras;
 }
 
-std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, SkyDetector& detector) {
+std::vector<uint8_t> Scenario::applyMask(const std::vector<uint8_t>& image,
+                                         const std::vector<uint8_t>& mask,
+                                         int width, int height) {
+    size_t totalPixels = static_cast<size_t>(width) * height;
+    std::vector<uint8_t> maskedImage(totalPixels, 0);
+
+    if (image.size() < totalPixels) {
+        std::cerr << "ERROR: Image size (" << image.size()
+                  << ") is smaller than expected (" << totalPixels << ")\n";
+        return maskedImage;
+    }
+
+    if (mask.size() < totalPixels) {
+        std::cerr << "WARNING: Mask size (" << mask.size()
+                  << ") does not match expected (" << totalPixels
+                  << "). Skipping masking and returning original image.\n";
+        return image; // fallback: just return the unmasked image
+    }
+
+    #pragma omp parallel for simd
+    for (int i = 0; i < static_cast<int>(totalPixels); ++i) {
+        maskedImage[i] = (mask[i] > 128) ? image[i] : 0;
+    }
+
+    return maskedImage;
+}
+
+
+std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, int frame) {
     static std::atomic<long long> totalImageLoadTime{0};
     static std::atomic<long long> totalGrayscaleTime{0};
     static std::atomic<long long> totalMotionTime{0};
@@ -148,19 +188,23 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, SkyDetector& 
     int prevFrame = (frame == 0) ? 0 : frame - 1;
     std::string prevFrameBuffer = formatFrame(prevFrame);
 
-    std::cout << "frame buff " << frameBuffer << " prev " << prevFrameBuffer << std::endl;
     
-    std::string img1 = framesDir + "\\" + frameBuffer + ".jpg";
-    std::string img2 = framesDir + "\\" + prevFrameBuffer + ".jpg";
-    std::string jsonPath = framesDir + "\\" + frameBuffer + ".json";
+    std::string img1 = framesDir + "/" + frameBuffer + ".jpg";
+    std::string img2 = framesDir + "/" + prevFrameBuffer + ".jpg";
+    std::string skyMaskPath = framesDir + "/sky_mask.jpg";
+    std::string jsonPath = framesDir + "/" + frameBuffer + ".json";
 
-    std::cout << "Loading camera: " << cameraName << " with images: " << img1 << " and " << img2 << std::endl;
 
     // Time image loading
     auto imageLoadStart = std::chrono::high_resolution_clock::now();
-    int imgW1, imgH1, imgW2, imgH2, channels1, channels2;
+    int imgW1, imgH1, imgW2, imgH2, channels1, channels2, channelsSky;
     auto image1 = Camera::loadImage(img1, imgW1, imgH1, channels1);
     auto image2 = Camera::loadImage(img2, imgW2, imgH2, channels2);
+    auto skyMask = Camera::loadImage(skyMaskPath, imgW1, imgH1, channelsSky);
+
+    stbi_write_png("skyMask.png", imgW1, imgH1, 1, skyMask.data(), imgW1);
+    
+
     auto imageLoadEnd = std::chrono::high_resolution_clock::now();
     totalImageLoadTime.fetch_add(std::chrono::duration_cast<std::chrono::microseconds>(imageLoadEnd - imageLoadStart).count());
 
@@ -178,72 +222,37 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, SkyDetector& 
         return std::nullopt;
     }
     
-    std::cout << "Successfully loaded images: " << imgW1 << "x" << imgH1 << " channels: " << channels1 << "/" << channels2 << std::endl;
-
     // Time grayscale conversion
     auto grayscaleStart = std::chrono::high_resolution_clock::now();
     auto image1data = Camera::convertToGrayscale(image1, imgW1, imgH1, channels1);
     auto image2data = Camera::convertToGrayscale(image2, imgW2, imgH2, channels2);
+
     auto grayscaleEnd = std::chrono::high_resolution_clock::now();
     totalGrayscaleTime.fetch_add(std::chrono::duration_cast<std::chrono::microseconds>(grayscaleEnd - grayscaleStart).count());
 
     // Time motion map computation
     auto motionStart = std::chrono::high_resolution_clock::now();
     auto motionMap = Camera::computeMotionMap(image1data, image2data, imgW1, imgH1);
+
+    std::string motionMapPath = "motionMap" + cameraName + ".png";
+    stbi_write_png(motionMapPath.c_str(), imgW1, imgH1, 1, motionMap.data(), imgW1);
     auto motionEnd = std::chrono::high_resolution_clock::now();
     totalMotionTime.fetch_add(std::chrono::duration_cast<std::chrono::microseconds>(motionEnd - motionStart).count());
 
     // Time sky detection
     auto skyStart = std::chrono::high_resolution_clock::now();
-    std::vector<uint8_t> maskData = detector.detectSkyMask(image1, imgW1, imgH1, channels1);
+    std::vector<uint8_t> maskData = skyMask;
     auto skyEnd = std::chrono::high_resolution_clock::now();
     totalSkyDetectionTime.fetch_add(std::chrono::duration_cast<std::chrono::microseconds>(skyEnd - skyStart).count());
  
     // Apply mask to motion map
-    std::vector<uint8_t> maskedMotionMap(imgW1 * imgH1, 0);
-    
-    if (maskData.size() == 640 * 480 && (imgW1 != 640 || imgH1 != 480)) {
-        float scaleX = 640.0f / imgW1;
-        float scaleY = 480.0f / imgH1;
-        
-        #pragma omp parallel for collapse(2)
-        for (int y = 0; y < imgH1; ++y) {
-            for (int x = 0; x < imgW1; ++x) {
-                float maskX = x * scaleX;
-                float maskY = y * scaleY;
-                
-                int maskXInt = static_cast<int>(maskX + 0.5f);
-                int maskYInt = static_cast<int>(maskY + 0.5f);
-                
-                maskXInt = std::max(0, std::min(639, maskXInt));
-                maskYInt = std::max(0, std::min(479, maskYInt));
-                
-                int motionIdx = y * imgW1 + x;
-                int maskIdx = maskYInt * 640 + maskXInt;
-                
-                if (maskData[maskIdx] == 0) {
-                    maskedMotionMap[motionIdx] = 0;
-                } else {
-                    maskedMotionMap[motionIdx] = motionMap[motionIdx];
-                }
-            }
-        }
-    } else if (maskData.size() == imgW1 * imgH1) {
-        #pragma omp parallel for
-        for (int i = 0; i < imgW1 * imgH1; ++i) {
-            if (maskData[i] == 0) {
-                maskedMotionMap[i] = 0;
-            } else {
-                maskedMotionMap[i] = motionMap[i];
-            }
-        }
-    } else {
-        maskedMotionMap = motionMap;
-    }
+    std::vector<uint8_t> maskedMotionMap = applyMask(motionMap, maskData, imgW1, imgH1);
     
     motionMap = std::move(maskedMotionMap);
 
-    std::cout << "frame no " << std::to_string(frame) << std::endl;
+    std::string maskedMotionMapPath = "maskedMotionMap" + cameraName + ".png";
+
+    stbi_write_png(maskedMotionMapPath.c_str(), imgW1, imgH1, 1, motionMap.data(), imgW1);
 
     // std::string outputPath = "motion_map_masked_" + cameraName + std::to_string(frame) + ".jpg";
     // std::cout << "Saving motion map masked to: " << outputPath << std::endl;

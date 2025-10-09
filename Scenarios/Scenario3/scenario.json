@@ -1,7 +1,7 @@
 {
-    "scenario_uuid": "10fc66ff-e2b8-4a62-b3bc-5f09ef27e0cb",
-    "scenario_version": 2,
-    "build_timestamp_unix": 1759839520,
+    "scenario_uuid": "05704b3b-74e3-4e9b-9caa-d4bddead29d8",
+    "scenario_version": 30,
+    "build_timestamp_unix": 1760017679,
     "scenario_name": "Scenario3",
     "frame_rate": 30,
     "total_frames": 301,
@@ -10,25 +10,25 @@
         0.0,
         0.0
     ],
-    "scenario_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\",
+    "scenario_dir": "E:\\Code\\Neron\\ARES_old\\Scenario_Generator\\scenario3\\..\\..\\..\\ARES\\Scenarios\\Scenario3\\",
     "cameras": [
         {
             "name": "Camera",
-            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\Camera"
+            "frames_dir": "E:\\Code\\Neron\\ARES_old\\Scenario_Generator\\scenario3\\..\\..\\..\\ARES\\Scenarios\\Scenario3\\Camera"
         },
         {
             "name": "Camera.002",
-            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\Camera.002"
+            "frames_dir": "E:\\Code\\Neron\\ARES_old\\Scenario_Generator\\scenario3\\..\\..\\..\\ARES\\Scenarios\\Scenario3\\Camera.002"
         },
         {
             "name": "Camera.003",
-            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\Camera.003"
+            "frames_dir": "E:\\Code\\Neron\\ARES_old\\Scenario_Generator\\scenario3\\..\\..\\..\\ARES\\Scenarios\\Scenario3\\Camera.003"
         }
     ],
     "targets": [
         {
             "name": "Drone",
-            "file": "E:\\Code\\Neron\\ARES\\Scenario_Generator\\scenario3\\..\\..\\Scenarios\\Scenario3\\target_Drone.json"
+            "file": "E:\\Code\\Neron\\ARES_old\\Scenario_Generator\\scenario3\\..\\..\\..\\ARES\\Scenarios\\Scenario3\\target_Drone.json"
         }
     ]
 }

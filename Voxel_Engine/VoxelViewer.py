@@ -371,8 +371,8 @@ if __name__ == "__main__":
             print(f"Features: [x, y, z, intensity, motion_type]")
             
             # Save for ML processing
-            np.save('voxel_features.npy', features)
-            print("Saved features to 'voxel_features.npy'")
+            # np.save('voxel_features.npy', features)
+            # print("Saved features to 'voxel_features.npy'")
             
     except FileNotFoundError:
         print(f"Error: Could not find {json_file}")

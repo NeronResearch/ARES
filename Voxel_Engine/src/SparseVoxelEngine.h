@@ -542,7 +542,7 @@ public:
                 
                 // Calculate frustum corners for bounds expansion
                 float fovRad = cam.getFOV() * 3.14159265359f / 180.0f;
-                float viewDistance = 100.0f;
+                float viewDistance = 150.0f;
                 
                 std::vector<std::pair<int, int>> corners = {
                     {0, 0}, {cam.getImageWidth()-1, 0}, 
