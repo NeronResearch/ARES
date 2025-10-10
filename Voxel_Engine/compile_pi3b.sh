@@ -82,7 +82,7 @@ else
 fi
 
 # Source files
-SOURCES="src/main.cpp src/PixelMotion.cpp src/ImageDenoise.cpp src/SkyDetector.cpp src/VoxelEngine.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp src/VoxelMotion.cpp"
+SOURCES="src/main.cpp src/PixelMotion.cpp src/ImageDenoise.cpp src/SkyDetector.cpp src/VoxelEngine.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp"
 
 # Build final command
 ALL_FLAGS="$ARCH_FLAGS $NEON_FLAGS $ARM_FLAGS $OPTIMIZATION $PERFORMANCE_FLAGS $CACHE_FLAGS $MEMORY_FLAGS $OPENMP_FLAGS $DEFINES"

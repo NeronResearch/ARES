@@ -1,7 +1,10 @@
 #pragma once
 
-#include "VoxelMotion.h"
 #include "SparseVoxelEngine.h"
+#include "../third_party/json.hpp"
+#include <iostream>
+
+using json = nlohmann::json;
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -16,11 +19,55 @@ inline int omp_get_max_threads() { return 1; }
 inline int omp_get_thread_num() { return 0; }
 #endif
 
-// Forward declaration
-using VoxelData = VoxelMotionEngine::VoxelData;
-using ChangeVoxel = VoxelMotionEngine::ChangeVoxel;
+// Embed lightweight motion-related types here so we can remove the separate
+// MotionTypes.h file and keep motion data-shapes colocated with sparse motion
+// logic. This avoids a separate header dependency while keeping the same
+// namespaced types available to the rest of the codebase.
+namespace MotionTypes {
 
-// Sparse extensions for VoxelMotionEngine
+struct VoxelData {
+    XYZ position;                    // World position in meters
+    float intersectionCount = 0.0f;  // Ray intersection count
+    int numCamerasIntersecting = 0;  // Number of cameras that intersect this voxel
+    int gridX = 0, gridY = 0, gridZ = 0; // Grid indices
+    mutable uint64_t cachedHash = 0;
+
+    VoxelData() = default;
+    VoxelData(const XYZ& pos, float count, int cameras, int x, int y, int z)
+        : position(pos), intersectionCount(count), numCamerasIntersecting(cameras),
+          gridX(x), gridY(y), gridZ(z) {}
+
+    uint64_t getHash() const {
+        if (cachedHash == 0) {
+            cachedHash = (static_cast<uint64_t>(gridX + 32768) << 32) |
+                         (static_cast<uint64_t>(gridY + 32768) << 16) |
+                         (static_cast<uint64_t>(gridZ + 32768));
+        }
+        return cachedHash;
+    }
+};
+
+struct ChangeVoxel {
+    XYZ position = XYZ(0,0,0);
+    float changeIntensity = 0.0f;
+    float changeType = 0.0f;
+    float absoluteChange = 0.0f;
+    float relativeChange = 0.0f;
+    int gridX = 0, gridY = 0, gridZ = 0;
+    float grid1IntersectionCount = 0.0f;
+    float grid2IntersectionCount = 0.0f;
+    int grid1CameraCount = 0;
+    int grid2CameraCount = 0;
+    ChangeVoxel() = default;
+};
+
+} // namespace MotionTypes
+
+// Forward alias to use the embedded MotionTypes
+using VoxelData = MotionTypes::VoxelData;
+using ChangeVoxel = MotionTypes::ChangeVoxel;
+
+// Sparse motion extensions (uses MotionTypes to decouple from removed dense engine)
 namespace SparseVoxelMotionExt {
 
 /**
@@ -75,12 +122,12 @@ public:
     /**
      * @brief Get voxels vector for compatibility with existing VoxelMotion code
      */
-    const std::vector<VoxelMotionEngine::VoxelData>& getVoxels() const { return voxels; }
+    const std::vector<VoxelData>& getVoxels() const { return voxels; }
     
     /**
      * @brief Find voxel by grid coordinates (sparse-optimized)
      */
-    const VoxelMotionEngine::VoxelData* findVoxelByIndices(int x, int y, int z) const {
+    const VoxelData* findVoxelByIndices(int x, int y, int z) const {
         uint64_t hash = spatialHash(x, y, z);
         auto it = spatialIndex.find(hash);
         return (it != spatialIndex.end()) ? &voxels[it->second] : nullptr;
@@ -114,7 +161,7 @@ public:
     }
 
 private:
-    std::vector<VoxelMotionEngine::VoxelData> voxels;
+    std::vector<VoxelData> voxels;
     std::unordered_map<uint64_t, size_t> spatialIndex;
     std::array<int, 3> gridDimensions;
     XYZ gridOrigin;
@@ -160,7 +207,7 @@ public:
      * @param brightnessPercentile Brightness percentile filter
      * @return Vector of detected changes
      */
-    std::vector<VoxelMotionEngine::ChangeVoxel> computeSparseVoxelChanges(const ::SparseVoxelGrid& sparseGrid1,
+    std::vector<ChangeVoxel> computeSparseVoxelChanges(const ::SparseVoxelGrid& sparseGrid1,
                                                       const ::SparseVoxelGrid& sparseGrid2,
                                                       float minChangeThreshold = 0.05f,
                                                       float brightnessPercentile = 99.0f) {
@@ -186,8 +233,8 @@ public:
         allCoordinates.reserve(estimatedCoords);
         
         // PERFORMANCE: Batch coordinate collection to reduce hash computations
-        const auto& voxels1 = adapter1.getVoxels();
-        const auto& voxels2 = adapter2.getVoxels();
+    const auto& voxels1 = adapter1.getVoxels();
+    const auto& voxels2 = adapter2.getVoxels();
         
         for (const auto& voxel : voxels1) {
             if (voxel.intersectionCount >= brightnessThreshold) {
@@ -210,7 +257,7 @@ public:
         
         // Pre-allocate thread-local change vectors
         const int numThreads = std::max(1, omp_get_max_threads());
-        std::vector<std::vector<ChangeVoxel>> threadLocalChanges(numThreads);
+    std::vector<std::vector<ChangeVoxel>> threadLocalChanges(numThreads);
         
         #pragma omp parallel
         {
@@ -239,7 +286,7 @@ public:
         }
         
         // PERFORMANCE: Merge thread-local results efficiently
-        std::vector<ChangeVoxel> changes;
+    std::vector<ChangeVoxel> changes;
         size_t totalChanges = 0;
         for (const auto& localChanges : threadLocalChanges) {
             totalChanges += localChanges.size();
@@ -264,7 +311,7 @@ public:
     /**
      * @brief Save sparse change results with enhanced metadata
      */
-    void saveSparseChangeGrid(const std::vector<VoxelMotionEngine::ChangeVoxel>& changeVoxels,
+    void saveSparseChangeGrid(const std::vector<ChangeVoxel>& changeVoxels,
                              const ::SparseVoxelGrid& sourceGrid,
                              const std::string& filename) {
         
@@ -369,11 +416,11 @@ private:
     /**
      * @brief Calculate change metrics for sparse voxel pair
      */
-    VoxelMotionEngine::ChangeVoxel calculateSparseVoxelChange(const VoxelMotionEngine::VoxelData* voxel1, const VoxelMotionEngine::VoxelData* voxel2,
+    ChangeVoxel calculateSparseVoxelChange(const VoxelData* voxel1, const VoxelData* voxel2,
                                           const SparseVoxelGridAdapter& adapter1,
                                           const SparseVoxelGridAdapter& adapter2) {
         
-        VoxelMotionEngine::ChangeVoxel change;
+        ChangeVoxel change;
         
         // Determine position and grid coordinates
         if (voxel1) {
@@ -391,7 +438,7 @@ private:
             change.grid1IntersectionCount = 0.0f;
             change.grid1CameraCount = 0;
         }
-        
+
         if (voxel2) {
             change.grid2IntersectionCount = voxel2->intersectionCount;
             change.grid2CameraCount = voxel2->numCamerasIntersecting;

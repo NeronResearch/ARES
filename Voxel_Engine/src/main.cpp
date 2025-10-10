@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     auto& sparseVoxelGrid2 = sparseScene2.getVoxelGrid();
 
     // Enhanced motion processing with sparse grids
-    std::vector<VoxelMotionEngine::ChangeVoxel> sparseVoxelChanges;
+    std::vector<MotionTypes::ChangeVoxel> sparseVoxelChanges;
     {
         Timer motionTimer("Motion Analysis Processing");
         SparseVoxelMotionExt::SparseVoxelMotionEngine sparseMotionEngine;

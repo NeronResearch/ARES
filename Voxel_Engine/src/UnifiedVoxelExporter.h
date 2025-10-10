@@ -1,7 +1,7 @@
 #pragma once
 #include "SparseVoxelEngine.h"
 #include "SparseVoxelMotion.h"
-#include "VoxelMotion.h"
+// MotionTypes are embedded in SparseVoxelMotion.h; no separate header
 #include "Target.h"
 #include "../third_party/json.hpp"
 #include <fstream>
@@ -31,7 +31,7 @@ public:
      */
     static void exportUnifiedScene(const SparseVoxelGrid& grid1,
                                   const SparseVoxelGrid& grid2,
-                                  const std::vector<VoxelMotionEngine::ChangeVoxel>& changes,
+                                  const std::vector<MotionTypes::ChangeVoxel>& changes,
                                   const std::vector<Camera>& cameras,
                                   const std::string& filename,
                                   const std::vector<Target>& targets = std::vector<Target>(),
@@ -83,21 +83,8 @@ public:
      * @param targetNames Target names array
      * @param frame Frame number for targets
      */
-    static void exportUnifiedScene(const VoxelMotionEngine::VoxelGrid& grid1,
-                                  const VoxelMotionEngine::VoxelGrid& grid2,
-                                  const std::vector<VoxelMotionEngine::ChangeVoxel>& changes,
-                                  const std::vector<Camera>& cameras,
-                                  const std::string& filename,
-                                  const std::vector<Target>& targets = std::vector<Target>(),
-                                  const std::vector<std::string>& targetNames = std::vector<std::string>(),
-                                  int frame = 25) {
-        // Convert dense to sparse format internally and use same export logic
-        auto sparseGrid1 = convertDenseToSparse(grid1);
-        auto sparseGrid2 = convertDenseToSparse(grid2);
-        
-        // Call the sparse version with converted data
-        exportUnifiedScene(sparseGrid1, sparseGrid2, changes, cameras, filename, targets, targetNames, frame);
-    }
+    // Dense VoxelMotion support removed. If callers have dense grids they
+    // should convert to SparseVoxelGrid before calling this API.
 
     /**
      * @brief Create minimal camera position data
@@ -132,7 +119,7 @@ public:
      * Each voxel is an object with coordinates, intensity, and motion status
      * Only exports the top 10,000 most intense voxels
      */
-    static json createVoxelObjectArray(const SparseVoxelGrid& grid, const std::vector<VoxelMotionEngine::ChangeVoxel>& changes) {
+    static json createVoxelObjectArray(const SparseVoxelGrid& grid, const std::vector<MotionTypes::ChangeVoxel>& changes) {
         json voxel_array = json::array();
         
         // Create a map of changed voxels for quick lookup
@@ -215,7 +202,7 @@ public:
     /**
      * Create motion analysis summary
      */
-    static json createMotionSummary(const std::vector<VoxelMotionEngine::ChangeVoxel>& changes) {
+    static json createMotionSummary(const std::vector<MotionTypes::ChangeVoxel>& changes) {
         json motion_summary;
         
         int added = 0, removed = 0, modified = 0;
@@ -254,65 +241,8 @@ public:
     /**
      * Convert dense VoxelMotionEngine::VoxelGrid to SparseVoxelGrid format
      */
-    static SparseVoxelGrid convertDenseToSparse(const VoxelMotionEngine::VoxelGrid& denseGrid) {
-        // Extract basic grid info from dense grid's voxels
-        if (denseGrid.voxels.empty()) {
-            // Return empty sparse grid with reasonable defaults
-            return SparseVoxelGrid(XYZ(100, 100, 100), XYZ(0, 0, 0), 1.0f);
-        }
-        
-        // Calculate grid bounds from voxel data
-        int minX = denseGrid.minX, maxX = denseGrid.maxX;
-        int minY = denseGrid.minY, maxY = denseGrid.maxY; 
-        int minZ = denseGrid.minZ, maxZ = denseGrid.maxZ;
-        
-        // Create sparse grid with calculated dimensions
-        int sizeX = maxX - minX + 1;
-        int sizeY = maxY - minY + 1;
-        int sizeZ = maxZ - minZ + 1;
-        
-        // Estimate voxel size from first voxel (assuming uniform spacing)
-        float voxelSize = 5.0f; // Default 5m voxels
-        XYZ origin(minX * voxelSize, minY * voxelSize, minZ * voxelSize);
-        
-        SparseVoxelGrid sparseGrid(XYZ(sizeX, sizeY, sizeZ), origin, voxelSize);
-        
-        // Convert each dense voxel to sparse format
-        for (const auto& voxel : denseGrid.voxels) {
-            // Calculate grid coordinates relative to sparse grid origin
-            int x = voxel.gridX - minX;
-            int y = voxel.gridY - minY;
-            int z = voxel.gridZ - minZ;
-            
-            if (x >= 0 && x < sizeX && y >= 0 && y < sizeY && z >= 0 && z < sizeZ) {
-                auto& sparseVoxel = sparseGrid.getOrCreateVoxel(x, y, z);
-                
-                // Convert dense voxel data by simulating camera intersections
-                float intersectionCount = voxel.intersectionCount;
-                int numCameras = voxel.numCamerasIntersecting;
-                
-                // Simulate camera intersections to recreate the voxel state
-                if (numCameras > 0 && intersectionCount > 0) {
-                    float avgBrightness = intersectionCount / numCameras;
-                    for (int camId = 0; camId < numCameras; ++camId) {
-                        sparseVoxel.addCameraIntersection(camId, avgBrightness);
-                    }
-                    sparseVoxel.finalizeIntersections();
-                }
-            }
-        }
-        
-        return sparseGrid;
-    }
-    
-    /**
-     * Convert dense changes to sparse change format
-     */
-    static std::vector<VoxelMotionEngine::ChangeVoxel> convertDenseChangesToSparse(
-        const std::vector<VoxelMotionEngine::ChangeVoxel>& denseChanges) {
-        // Dense and sparse use the same ChangeVoxel type, so just return as-is
-        return denseChanges;
-    }
+    // Dense conversion helpers removed. Callers must convert dense grids to
+    // SparseVoxelGrid before invoking the exporter.
     
     static void writeJsonFile(const json& data, const std::string& filename) {
         std::ofstream outFile(filename);

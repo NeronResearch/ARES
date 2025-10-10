@@ -1,3 +1,4 @@
-g++ -std=c++17 -O3 -march=native -DNDEBUG main.cpp PixelMotion.cpp ImageDenoise.cpp SkyDetector.cpp VoxelEngine.cpp Scenario.cpp Camera.cpp Target.cpp VoxelMotion.cpp -I"E:\Code\opencv\install\include" -L"E:\Code\opencv\install\x64\mingw\lib" -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -o main.exe -lm
+
+g++ -std=c++17 -O3 -march=native -DNDEBUG main.cpp PixelMotion.cpp ImageDenoise.cpp SkyDetector.cpp VoxelEngine.cpp Scenario.cpp Camera.cpp Target.cpp -I"E:\Code\opencv\install\include" -L"E:\Code\opencv\install\x64\mingw\lib" -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -o main.exe -lm
 g++ -std=c++17 -O2 -O3 -march=native -ffast-math test.cpp PixelMotion.cpp -o pixel_motion
-g++ -std=c++17 -O2 -I. -Ithird_party VoxelMotion.cpp -o VoxelMotion.exe
+// Dense VoxelMotion binary removed. Use SparseVoxelMotion functionality instead.
