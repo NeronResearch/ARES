@@ -1,2 +1,2 @@
-checkpoints/*
+checkpoints/model_epoch_*.pt
 out/*ama
