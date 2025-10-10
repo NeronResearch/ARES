@@ -202,7 +202,7 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, int frame) {
     auto image2 = Camera::loadImage(img2, imgW2, imgH2, channels2);
     auto skyMask = Camera::loadImage(skyMaskPath, imgW1, imgH1, channelsSky);
 
-    stbi_write_png("skyMask.png", imgW1, imgH1, 1, skyMask.data(), imgW1);
+    // stbi_write_png("skyMask.png", imgW1, imgH1, 1, skyMask.data(), imgW1);
     
 
     auto imageLoadEnd = std::chrono::high_resolution_clock::now();
@@ -235,7 +235,7 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, int frame) {
     auto motionMap = Camera::computeMotionMap(image1data, image2data, imgW1, imgH1);
 
     std::string motionMapPath = "motionMap" + cameraName + ".png";
-    stbi_write_png(motionMapPath.c_str(), imgW1, imgH1, 1, motionMap.data(), imgW1);
+    // stbi_write_png(motionMapPath.c_str(), imgW1, imgH1, 1, motionMap.data(), imgW1);
     auto motionEnd = std::chrono::high_resolution_clock::now();
     totalMotionTime.fetch_add(std::chrono::duration_cast<std::chrono::microseconds>(motionEnd - motionStart).count());
 
@@ -252,7 +252,7 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, int frame) {
 
     std::string maskedMotionMapPath = "maskedMotionMap" + cameraName + ".png";
 
-    stbi_write_png(maskedMotionMapPath.c_str(), imgW1, imgH1, 1, motionMap.data(), imgW1);
+    // stbi_write_png(maskedMotionMapPath.c_str(), imgW1, imgH1, 1, motionMap.data(), imgW1);
 
     // std::string outputPath = "motion_map_masked_" + cameraName + std::to_string(frame) + ".jpg";
     // std::cout << "Saving motion map masked to: " << outputPath << std::endl;
