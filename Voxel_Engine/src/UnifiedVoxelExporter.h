@@ -40,7 +40,6 @@ public:
         
         json data;
         
-        // Basic metadata only
         data["grid_info"] = {
             {"dimensions", {grid1.getSizeX(), grid1.getSizeY(), grid1.getSizeZ()}},
             {"voxel_size_m", grid1.getVoxelSize()},
@@ -48,7 +47,6 @@ public:
             {"total_changes", changes.size()}
         };
         
-        // Camera positions only (no visualization BS)
         data["cameras"] = createCameraPositions(cameras);
         
         // Target positions array
@@ -59,7 +57,7 @@ public:
             targetObj["frame"] = frame;
             const XYZ& pos = targets[i].getCurrentPosition();
             targetObj["position_m"] = {pos.getX(), pos.getY(), pos.getZ()};
-            targetObj["voxel_size_m"] = grid2.getVoxelSize();
+            targetObj["is_visible"] = targets[i].isVisible();
             targetsArray.push_back(targetObj);
         }
         data["targets"] = targetsArray;
@@ -330,45 +328,3 @@ public:
         std::cout << "File size: " << fileSize << " KB" << std::endl;
     }
 };
-
-/**
- * Example usage for Python ML:
- * 
- * import json
- * import numpy as np
- * 
- * with open('unified_scene_data.json', 'r') as f:
- *     data = json.load(f)
- * 
- * # Scene 1 voxels
- * coords1 = np.array(data['scene1']['coordinates'])  # [N, 3] int coordinates
- * intensities1 = np.array(data['scene1']['intensities'])  # [N] float values
- * positions1 = np.array(data['scene1']['positions_m'])  # [N, 3] world positions
- * 
- * # Scene 2 voxels 
- * coords2 = np.array(data['scene2']['coordinates'])
- * intensities2 = np.array(data['scene2']['intensities'])
- * 
- * # Changes
- * change_coords = np.array(data['changes']['coordinates'])
- * change_types = np.array(data['changes']['types'])  # -1=removed, 0=modified, 1=added
- * 
- * # Grid info
- * grid_dims = data['grid_info']['dimensions']  # [nx, ny, nz]
- * voxel_size = data['grid_info']['voxel_size_m']
- * origin = data['grid_info']['origin_m']  # [x, y, z]
- *
- * Example usage for Matlab:
- *
- * data = jsondecode(fileread('unified_scene_data.json'));
- * 
- * % Scene 1 voxels
- * coords1 = cell2mat(data.scene1.coordinates');  % Convert cell array to matrix
- * intensities1 = cell2mat(data.scene1.intensities');
- * positions1 = cell2mat(data.scene1.positions_m');
- * 
- * % Grid parameters
- * grid_dims = cell2mat(data.grid_info.dimensions');
- * voxel_size = data.grid_info.voxel_size_m;
- * origin = cell2mat(data.grid_info.origin_m');
- */

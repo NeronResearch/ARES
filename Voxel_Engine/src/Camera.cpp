@@ -6,7 +6,7 @@
 #include "../third_party/stb_image.h"
 #include "../third_party/stb_image_write.h"
 
-// constexpr float M_PI = 3.14159265358979323846f;
+constexpr float M_PI = 3.14159265358979323846f;
 
 // Camera Implementation
 Camera::Camera(XYZ position,

@@ -77,7 +77,12 @@ std::vector<Target> Scenario::loadTargets(const json& scenarioData, int frame) {
                     targetFrameData["position_m"][1].get<float>(),
                     targetFrameData["position_m"][2].get<float>()
                 );
-                targets.emplace_back(targetPos);
+
+                bool visible = false;
+                if (targetFrameData.contains("is_detected")) {
+                    visible = targetFrameData["is_detected"].get<bool>();
+                }
+                targets.emplace_back(targetPos, visible);
                 std::string targetName = targetInfo["name"].get<std::string>();
                 // Only add target names once (for the first frame)
                 if (frame == frame1) {
@@ -87,11 +92,6 @@ std::vector<Target> Scenario::loadTargets(const json& scenarioData, int frame) {
                           << " at (" << targetPos.getX() << ", " << targetPos.getY() << ", " << targetPos.getZ() << ") for frame " << frame << "\n";
             }
         }
-    }
-
-    if (targets.empty()) {
-        targets.emplace_back(XYZ(0, -150, 100));
-        std::cout << "Default target at (0, -150, 100) for frame " << frame << "\n";
     }
     
     return targets;

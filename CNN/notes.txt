@@ -1,0 +1,13 @@
+docker build -t minkowski_trainer E:\Code\Neron\ARES\CNN
+
+train:
+docker run --rm -it -v E:\Code\Neron\ARES:/workspace -w /workspace/CNN minkowski_trainer python3 train_multitarget.py --data_dir ../Frames/Scenario3 --epochs 5 --batch_size 1 --lr 1e-3 --save_dir checkpoints --radius 2 --pos_weight 12.0 --prob_thr 0.4 --min_cluster_voxels 3 --smooth_sigma 1.0
+
+
+infer:
+docker run --rm -it -v E:\Code\Neron\ARES:/workspace -w /workspace/CNN minkowski_trainer python3 infer.py --model ./checkpoints/model_final.pt --frames ../Frames/Scenario3 --out out
+
+
+
+# (Old, host-based command for reference)
+# py -3.10 .\infer.py --model .\checkpoints\model_final.pt --frames E:\Code\Neron\ARES\Frames --out out
