@@ -10,7 +10,6 @@
 constexpr float M_PI = 3.14159265358979323846f;
 #endif
 
-// Camera Implementation
 Camera::Camera(XYZ position,
                Matrix3x3 rotation,
                float sensorSize,
