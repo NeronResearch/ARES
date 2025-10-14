@@ -1,0 +1,34 @@
+{
+    "scenario_uuid": "adcceba7-3e40-4481-9d07-6aad5cc0e101",
+    "scenario_version": 4,
+    "build_timestamp_unix": 1760149505,
+    "scenario_name": "FernBellPark",
+    "frame_rate": 30,
+    "total_frames": 2295,
+    "origin_lla": [
+        34.67508316040039,
+        -86.57328033447266,
+        181.75
+    ],
+    "scenario_dir": "E:\\Code\\Neron\\ARES\\Scenarios\\FernBellPark\\",
+    "cameras": [
+        {
+            "name": "Camera1",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenarios\\FernBellPark\\Camera1"
+        },
+        {
+            "name": "Camera2",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenarios\\FernBellPark\\Camera2"
+        },
+        {
+            "name": "Camera3",
+            "frames_dir": "E:\\Code\\Neron\\ARES\\Scenarios\\FernBellPark\\Camera3"
+        }
+    ],
+    "targets": [
+        {
+            "name": "Drone",
+            "file": "E:\\Code\\Neron\\ARES\\Scenarios\\FernBellPark\\target_Drone.json"
+        }
+    ]
+}
