@@ -31,9 +31,11 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+
     std::string scenarioPath = argv[1];
     int frame1 = argc > 2 ? std::stoi(argv[2]) : 1;
     int frame2 = argc > 3 ? std::stoi(argv[3]) : 25;
+    std::string outputPath = argc > 4 ? argv[4] : "unified_scene_data.json";
     
     Scenario scenario = [&]() {
         Timer scenarioTimer("Scenario Loading");
@@ -87,7 +89,7 @@ int main(int argc, char** argv) {
         Timer exportTimer("JSON Export");
         UnifiedVoxelExporter::exportUnifiedScene(
             sparseVoxelGrid1, sparseVoxelGrid2, sparseVoxelChanges, 
-            cameras1, "unified_scene_data.json", targets2, targetNames2, frame2
+            cameras1, outputPath, targets2, targetNames2, frame2
         );
     }
 

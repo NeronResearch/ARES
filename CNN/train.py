@@ -1,4 +1,6 @@
 import os
+os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
+os.environ.setdefault('OMP_NUM_THREADS', '8')
 import json
 import glob
 import math
@@ -18,14 +20,103 @@ import MinkowskiEngine as ME
 # Utilities
 # -----------------------------
 
-def load_clip_jsons(frame_dir: str, pattern: str = "000*.json") -> List[str]:
+def load_clip_jsons(frame_dir: str) -> List[str]:
+    import re
+
+    # All JSON files in the directory (sorted by name)
+    all_jsons = sorted(glob.glob(os.path.join(frame_dir, "*.json")))
+    if len(all_jsons) == 0:
+        raise RuntimeError(f"No JSON files found in {frame_dir}")
+
+    # Map numeric frame index -> path. We look for the first group of digits
+    # in the filename (without extension).
+    idx_to_path: Dict[int, str] = {}
+    for p in all_jsons:
+        name = os.path.splitext(os.path.basename(p))[0]
+        m = re.search(r"(\d+)", name)
+        if not m:
+            continue
+        idx = int(m.group(1))
+        # If multiple files map to same index, prefer the lexicographically
+        # earlier one (sorted order of all_jsons already enforces this)
+        if idx not in idx_to_path:
+            idx_to_path[idx] = p
+
+    # All files are candidates; collect the numeric indices that are present
+    matched_indices: List[int] = sorted(idx_to_path.keys())
+
+    if len(matched_indices) == 0:
+        raise RuntimeError(f"No numeric-indexed JSON files found in {frame_dir}")
+
+    # Try each matched index (sorted ascending) as a candidate start and
+    # return the first contiguous run of 10 frames that exists. This allows
+    # patterns that match a later frame (e.g. 0100) to work when 0100..0109
+    # exist, but also tolerates patterns that match multiple possible starts.
+    candidate_starts = sorted(set(int(x) for x in matched_indices))
+
+    tried_info: Dict[int, List[int]] = {}
+    for start_idx in candidate_starts:
+        needed = [start_idx + i for i in range(10)]
+        missing = [idx for idx in needed if idx not in idx_to_path]
+        if not missing:
+            # Found a full run
+            return [idx_to_path[idx] for idx in needed]
+        tried_info[start_idx] = missing
+
+    # No candidate produced a full contiguous run. Build helpful message.
+    msg_lines = ["No contiguous 10-frame clip found starting from any available start index in the directory"]
+    msg_lines.append("Candidates tried and their missing indices:")
+    for s, miss in tried_info.items():
+        msg_lines.append(f"  start {s}: missing {miss}")
+    raise RuntimeError("\n".join(msg_lines))
+
+
+def find_10frame_segments_in_dir(frame_dir: str) -> List[List[str]]:
     """
-    Locate the 10 json files for a clip. For your case, pattern matches 0000..0009.json.
+    Return all contiguous 10-frame segments (sliding window) found within a single directory.
+    Each segment is a list of 10 file paths.
     """
-    files = sorted(glob.glob(os.path.join(frame_dir, pattern)))
-    if len(files) != 10:
-        raise RuntimeError(f"Expected 10 JSON files, found {len(files)} in {frame_dir}")
-    return files
+    import re
+    all_jsons = sorted(glob.glob(os.path.join(frame_dir, "*.json")))
+    if len(all_jsons) == 0:
+        return []
+
+    idx_to_path: Dict[int, str] = {}
+    for p in all_jsons:
+        name = os.path.splitext(os.path.basename(p))[0]
+        m = re.search(r"(\d+)", name)
+        if not m:
+            continue
+        idx = int(m.group(1))
+        if idx not in idx_to_path:
+            idx_to_path[idx] = p
+
+    matched_indices = sorted(idx_to_path.keys())
+    if len(matched_indices) == 0:
+        return []
+
+    segments: List[List[str]] = []
+    # For each possible start index, check contiguous run of 10 frames
+    for start in matched_indices:
+        needed = [start + i for i in range(10)]
+        if all((n in idx_to_path) for n in needed):
+            segments.append([idx_to_path[n] for n in needed])
+
+    return segments
+
+
+def find_all_10frame_segments(root_dir: str) -> List[List[str]]:
+    """
+    Recursively search root_dir and its subdirectories for all contiguous 10-frame segments.
+    Returns a list of segments (each segment is a list of 10 json paths).
+    """
+    all_segments: List[List[str]] = []
+    # Walk directories including root
+    for dpath, dnames, fnames in os.walk(root_dir):
+        segs = find_10frame_segments_in_dir(dpath)
+        if segs:
+            all_segments.extend(segs)
+    return all_segments
 
 
 def parse_json(path: str) -> dict:
@@ -99,31 +190,38 @@ class Sparse4DClipDataset(torch.utils.data.Dataset):
 
     def __init__(self,
                  dir_path: str,
-                 radius_vox: int = 2,
-                 pattern: str = "000*.json"):
+                 radius_vox: int = 2):
         super().__init__()
         self.dir_path = dir_path
         self.radius_vox = radius_vox
-        # For now, treat exactly one clip in a directory (10 frames)
-        # You can extend to multiple disjoint 10-frame groups if needed.
-        self.clip_files = load_clip_jsons(dir_path, pattern=pattern)
+        # Find all contiguous 10-frame segments under dir_path (including subdirectories)
+        self.clip_segments = find_all_10frame_segments(dir_path)
+        if len(self.clip_segments) == 0:
+            raise RuntimeError(f"No contiguous 10-frame segments found under {dir_path}")
 
-        # Parse and cache
-        self.frames = [parse_json(p) for p in self.clip_files]
+        # Pre-parse and build arrays for each segment to keep __getitem__ simple
+        self._samples = []  # list of tuples (coords, feats, labels, grid_info)
+        for seg_idx, seg_files in enumerate(self.clip_segments):
+            frames = [parse_json(p) for p in seg_files]
+            # Validate grid consistency inside the segment
+            grid_info = frames[0].get("grid_info", {})
+            for i, fr in enumerate(frames[1:], 1):
+                gi = fr.get("grid_info", {})
+                for k in ["voxel_size_m", "origin_m", "dimensions"]:
+                    if str(grid_info.get(k)) != str(gi.get(k)):
+                        raise RuntimeError(f"grid_info mismatch in segment {seg_idx} between frame 0 and frame {i} for key '{k}'.")
 
-        # Validate grid consistency
-        self.grid_info = self.frames[0].get("grid_info", {})
-        for i, fr in enumerate(self.frames[1:], 1):
-            gi = fr.get("grid_info", {})
-            for k in ["voxel_size_m", "origin_m", "dimensions"]:
-                if str(self.grid_info.get(k)) != str(gi.get(k)):
-                    raise RuntimeError(f"grid_info mismatch between frame 0 and frame {i} for key '{k}'.")
+            # store voxel/grid metadata for the sample
+            voxel_size_m = float(grid_info.get("voxel_size_m", 1.0))
+            origin_m = np.array(grid_info.get("origin_m", [0.0, 0.0, 0.0]), dtype=np.float32)
 
+            coords, feats, labels = self._build_clip_arrays_from_frames(frames)
+            self._samples.append((coords, feats, labels, grid_info))
+
+        # Expose metadata of first sample for backward compatibility
+        self.grid_info = self._samples[0][3]
         self.voxel_size_m = float(self.grid_info.get("voxel_size_m", 1.0))
         self.origin_m = np.array(self.grid_info.get("origin_m", [0.0, 0.0, 0.0]), dtype=np.float32)
-
-        # Pre-assemble sparse arrays per clip
-        self.coords_xyz_it, self.feats, self.labels = self._build_clip_arrays()
 
     def _build_clip_arrays(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
@@ -155,7 +253,6 @@ class Sparse4DClipDataset(torch.utils.data.Dataset):
                 targets_per_t[it] = center_idx
 
         # Gather sparse voxels across frames
-        all_intens = []
         for it, fr in enumerate(self.frames):
             vox = fr.get("voxels", [])
             if len(vox) == 0:
@@ -167,7 +264,6 @@ class Sparse4DClipDataset(torch.utils.data.Dataset):
 
             intens = np.array([v.get("intensity", 0.0) for v in vox], dtype=np.float32)
             intens_list.append(intens)
-            all_intens.append(intens)
 
             motion_oh = np.stack([one_hot_motion(v.get("motion_type", 0)) for v in vox], axis=0)  # [M,5]
             motion_oh_list.append(motion_oh)
@@ -201,13 +297,47 @@ class Sparse4DClipDataset(torch.utils.data.Dataset):
 
         return coords_xyz_it.astype(np.int32), feats.astype(np.float32), labels
 
+
+    def _build_clip_arrays_from_frames(self, frames: List[dict]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Build arrays for an arbitrary list of 10 frame dicts (same logic as before).
+        """
+        # Temporarily assign self.frames and grid metadata to reuse same code; avoid modifying state permanently
+        old_frames = getattr(self, "frames", None)
+        old_origin = getattr(self, "origin_m", None)
+        old_voxel = getattr(self, "voxel_size_m", None)
+
+        grid_info = frames[0].get("grid_info", {})
+        try:
+            self.frames = frames
+            # set origin and voxel size expected by _build_clip_arrays
+            self.origin_m = np.array(grid_info.get("origin_m", [0.0, 0.0, 0.0]), dtype=np.float32)
+            self.voxel_size_m = float(grid_info.get("voxel_size_m", 1.0))
+            return self._build_clip_arrays()
+        finally:
+            # restore previous attributes
+            if old_frames is not None:
+                self.frames = old_frames
+            else:
+                if hasattr(self, "frames"):
+                    delattr(self, "frames")
+            if old_origin is not None:
+                self.origin_m = old_origin
+            else:
+                if hasattr(self, "origin_m"):
+                    delattr(self, "origin_m")
+            if old_voxel is not None:
+                self.voxel_size_m = old_voxel
+            else:
+                if hasattr(self, "voxel_size_m"):
+                    delattr(self, "voxel_size_m")
+
     def __len__(self):
-        # One clip per directory in this baseline
-        return 1
+        return len(self._samples)
 
     def __getitem__(self, idx):
-        assert idx == 0, "Single-clip dataset in this baseline."
-        return self.coords_xyz_it.copy(), self.feats.copy(), self.labels.copy(), self.grid_info
+        coords, feats, labels, grid_info = self._samples[idx]
+        return coords.copy(), feats.copy(), labels.copy(), grid_info
 
 
 def sparse_collate_fn(batch):
@@ -221,7 +351,7 @@ def sparse_collate_fn(batch):
     infos = []
 
     for bidx, (coords_xyz_it, feats, labels, info) in enumerate(batch):
-        print("coords_xyz_it shape:", coords_xyz_it.shape)
+        # print("coords_xyz_it shape:", coords_xyz_it.shape)
         # Expect coords_xyz_it to be [N, 4] (x, y, z, t)
         if coords_xyz_it.shape[1] != 4:
             raise ValueError(f"Expected coords_xyz_it shape [N, 4], got {coords_xyz_it.shape}")
@@ -326,12 +456,21 @@ class Simple4DUNet(nn.Module):
 # Training
 # -----------------------------
 
-def train_one_epoch(model, loader, optimizer, device, pos_weight: float):
+def train_one_epoch(model, loader, optimizer, device, pos_weight: float, show_progress: bool = True):
+    """Train for one epoch.
+
+    If show_progress is True, display a tqdm progress bar over batches for this epoch.
+    Returns average loss (float).
+    """
     model.train()
     total_loss = 0.0
     criterion = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_weight], device=device))
 
-    for coords, feats, labels, _ in loader:
+    iterator = loader
+    if show_progress:
+        iterator = tqdm(loader, desc="Batches", unit="batch", leave=False)
+
+    for coords, feats, labels, _ in iterator:
         coords = coords.to(device)
         feats = feats.to(device)
         labels = labels.to(device)  # [N,1]
@@ -346,6 +485,9 @@ def train_one_epoch(model, loader, optimizer, device, pos_weight: float):
         loss.backward()
         optimizer.step()
         total_loss += float(loss.item())
+        if show_progress:
+            iterator.set_postfix(loss=total_loss / (iterator.n if hasattr(iterator, 'n') and iterator.n > 0 else 1))
+
     return total_loss / max(len(loader), 1)
 
 
@@ -371,7 +513,7 @@ def evaluate(model, loader, device):
 
 def main():
     ap = argparse.ArgumentParser("Sparse 4D CNN training (MinkowskiEngine)")
-    ap.add_argument("--data_dir", type=str, default="/data/Frames",
+    ap.add_argument("--data_dir", type=str, default=r"E:\Code\Neron\ARES\Frames\Scenario3",
                     help="Directory containing 0000..0009.json")
     ap.add_argument("--epochs", type=int, default=10)
     ap.add_argument("--batch_size", type=int, default=1, help="Clips per batch; baseline uses 1")
@@ -379,14 +521,14 @@ def main():
     ap.add_argument("--pos_weight", type=float, default=12.0, help="BCE positive class weight")
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--weight_decay", type=float, default=1e-4)
-    ap.add_argument("--save_dir", type=str, default="/workspace/checkpoints")
+    ap.add_argument("--save_dir", type=str, default="checkpoints")
     args = ap.parse_args()
 
     os.makedirs(args.save_dir, exist_ok=True)
     device = torch.device("cpu")
 
     # Dataset & loader (baseline: single 10-frame clip)
-    dataset = Sparse4DClipDataset(args.data_dir, radius_vox=args.radius, pattern="000*.json")
+    dataset = Sparse4DClipDataset(args.data_dir, radius_vox=args.radius)
     loader = torch.utils.data.DataLoader(
         dataset,
         batch_size=args.batch_size,
@@ -401,14 +543,17 @@ def main():
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
     print("Starting training...")
-    for epoch in range(1, args.epochs + 1):
-        loss = train_one_epoch(model, loader, optimizer, device, pos_weight=args.pos_weight)
+    # Outer progress bar over epochs
+    epoch_iter = tqdm(range(1, args.epochs + 1), desc="Epochs", unit="epoch")
+    for epoch in epoch_iter:
+        loss = train_one_epoch(model, loader, optimizer, device, pos_weight=args.pos_weight, show_progress=True)
         prec = evaluate(model, loader, device)
-        print(f"Epoch {epoch:02d} | loss={loss:.4f} | pos-precision={prec:.4f}")
+        # Use tqdm.write to avoid clobbering progress bars
+        tqdm.write(f"Epoch {epoch:02d} | loss={loss:.4f} | pos-precision={prec:.4f}")
 
         # Save checkpoint each epoch
-        ckpt_path = os.path.join(args.save_dir, f"model_epoch_{epoch:02d}.pt")
-        torch.save({"epoch": epoch, "model_state": model.state_dict()}, ckpt_path)
+        # ckpt_path = os.path.join(args.save_dir, f"model_epoch_{epoch:02d}.pt")
+        # torch.save({"epoch": epoch, "model_state": model.state_dict()}, ckpt_path)
 
     # Final save
     final_path = os.path.join(args.save_dir, "model_final.pt")

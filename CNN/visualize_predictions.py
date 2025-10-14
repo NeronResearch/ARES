@@ -66,6 +66,25 @@ def visualize_frame_with_heatmap(npz_path: str, frames_dir: str, frame_name: str
     pred_coords -= offset
     grid_shape = all_coords.max(axis=0) - all_coords.min(axis=0) + 1
 
+    # --- Align target and camera positions with the same offset ---
+    # target_pos and camera_positions were computed in original grid coordinates
+    # so they must be shifted by the same offset used for coords and pred_coords.
+    if target_pos is not None:
+        try:
+            target_pos = (target_pos - offset).astype(int)
+        except Exception:
+            # Fallback: ensure array conversion
+            target_pos = np.array(target_pos, dtype=int) - offset
+
+    if len(camera_positions) > 0:
+        # camera_positions is a list of positions in grid coords; shift each
+        try:
+            camera_positions = [np.array(cp, dtype=int) - offset for cp in camera_positions]
+            camera_positions = np.array(camera_positions)
+        except Exception:
+            # If already numpy array, just subtract
+            camera_positions = np.array(camera_positions) - offset
+
     # --- Build Gaussian heatmap ---
     grid = np.zeros(grid_shape, dtype=np.float32)
     for (x, y, z), p in zip(pred_coords, pred_probs):
@@ -100,7 +119,7 @@ def visualize_frame_with_heatmap(npz_path: str, frames_dir: str, frame_name: str
         sc_target = None
 
     # Camera positions (blue triangles)
-    if camera_positions:
+    if len(camera_positions) > 0:
         camera_positions = np.array(camera_positions)
         sc_cams = ax.scatter(camera_positions[:, 0], camera_positions[:, 1], camera_positions[:, 2],
                              c='blue', marker='^', s=60, label='Cameras', edgecolor='k')
@@ -165,8 +184,8 @@ def visualize_frame_with_heatmap(npz_path: str, frames_dir: str, frame_name: str
 
 if __name__ == "__main__":
     visualize_frame_with_heatmap(
-        npz_path="out/predictions_clip.npz",
-        frames_dir=r"E:\Code\Neron\ARES\Frames\Scenario3",
-        frame_name="0009.json",
+        npz_path="predictions_clip.npz",
+        frames_dir=r"E:\Code\Neron\ARES\Frames\FernBellPark",
+        frame_name="0069.json",
         sigma=2.0
     )

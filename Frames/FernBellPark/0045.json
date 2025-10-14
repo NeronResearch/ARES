@@ -1,0 +1,6417 @@
+{
+  "cameras": [
+    {
+      "fov_deg": 95,
+      "id": 0,
+      "position_m": [
+        12.93156909942627,
+        -1.089231014251709,
+        0.0
+      ],
+      "resolution": [
+        4080,
+        2292
+      ],
+      "rotation_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -1.0,
+          8.742277657347586e-08
+        ],
+        [
+          0.0,
+          -8.742277657347586e-08,
+          -1.0
+        ]
+      ]
+    },
+    {
+      "fov_deg": 95,
+      "id": 1,
+      "position_m": [
+        0.0,
+        11.842337608337402,
+        0.0
+      ],
+      "resolution": [
+        4080,
+        2292
+      ],
+      "rotation_matrix": [
+        [
+          -4.371138828673793e-08,
+          1.0,
+          -8.742277657347586e-08
+        ],
+        [
+          1.0,
+          4.371138828673793e-08,
+          -3.821371353845884e-15
+        ],
+        [
+          0.0,
+          -8.742277657347586e-08,
+          -1.0
+        ]
+      ]
+    },
+    {
+      "fov_deg": 95,
+      "id": 2,
+      "position_m": [
+        -12.93156909942627,
+        -1.089231014251709,
+        0.0
+      ],
+      "resolution": [
+        4080,
+        2292
+      ],
+      "rotation_matrix": [
+        [
+          -1.0,
+          -3.2584136988589307e-07,
+          1.0617259160608863e-13
+        ],
+        [
+          -3.2584136988589307e-07,
+          1.0,
+          -3.2584136988589307e-07
+        ],
+        [
+          0.0,
+          -3.2584136988589307e-07,
+          -1.0
+        ]
+      ]
+    }
+  ],
+  "grid_info": {
+    "dimensions": [
+      67,
+      61,
+      29
+    ],
+    "origin_m": [
+      -165.09934997558594,
+      -140.32542419433594,
+      0.0
+    ],
+    "total_changes": 1,
+    "voxel_size_m": 5.0
+  },
+  "motion_analysis": {
+    "added_voxels": 1,
+    "average_change_intensity": 0.48326772451400757,
+    "modified_voxels": 0,
+    "removed_voxels": 0,
+    "total_changes": 1
+  },
+  "targets": [
+    {
+      "frame": 676,
+      "is_visible": false,
+      "name": "Drone",
+      "position_m": [
+        0.0,
+        -5.605193857299268e-45,
+        46.591888427734375
+      ]
+    }
+  ],
+  "voxels": [
+    {
+      "coordinates": [
+        33,
+        28,
+        9
+      ],
+      "intensity": 34.32157516479492,
+      "intersection_score": 1266.8785400390625,
+      "motion_type": 1,
+      "num_cameras": 3,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        28,
+        29
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        2.1745758056640625,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        28,
+        19
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        2.1745758056640625,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        28,
+        18
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        2.1745758056640625,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        36,
+        28,
+        20
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        17.400650024414063,
+        2.1745758056640625,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        36,
+        28,
+        21
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        17.400650024414063,
+        2.1745758056640625,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        36,
+        28,
+        22
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        17.400650024414063,
+        2.1745758056640625,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        28,
+        17
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        2.1745758056640625,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        24
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        25
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        26
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        28,
+        28
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        2.1745758056640625,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        15
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        14
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        13
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        12
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        11
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        10
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        27,
+        4
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -2.8254241943359375,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        27,
+        3
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -2.8254241943359375,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        27,
+        2
+      ],
+      "intensity": 26.290203094482422,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -2.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        9
+      ],
+      "intensity": 23.368627548217773,
+      "intersection_score": 578.8260498046875,
+      "motion_type": 0,
+      "num_cameras": 3,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        8
+      ],
+      "intensity": 23.01176643371582,
+      "intersection_score": 105.16177368164063,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        28,
+        16
+      ],
+      "intensity": 21.631378173828125,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        2.1745758056640625,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        36,
+        28,
+        23
+      ],
+      "intensity": 20.690195083618164,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        17.400650024414063,
+        2.1745758056640625,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        16
+      ],
+      "intensity": 20.690195083618164,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        27,
+        5
+      ],
+      "intensity": 20.282352447509766,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -2.8254241943359375,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        7
+      ],
+      "intensity": 17.160785675048828,
+      "intersection_score": 75.05791473388672,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        28,
+        27
+      ],
+      "intensity": 16.972553253173828,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        2.1745758056640625,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        23
+      ],
+      "intensity": 16.690200805664063,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        12
+      ],
+      "intensity": 16.407846450805664,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        5
+      ],
+      "intensity": 16.282352447509766,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        6
+      ],
+      "intensity": 15.811763763427734,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        36,
+        28,
+        19
+      ],
+      "intensity": 15.71764850616455,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        17.400650024414063,
+        2.1745758056640625,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        27,
+        2
+      ],
+      "intensity": 15.717646598815918,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        -2.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        6
+      ],
+      "intensity": 15.341176986694336,
+      "intersection_score": 65.69584655761719,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        7
+      ],
+      "intensity": 13.521568298339844,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        28,
+        26
+      ],
+      "intensity": 13.145098686218262,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        2.1745758056640625,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        27
+      ],
+      "intensity": 13.145097732543945,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        5
+      ],
+      "intensity": 13.050980567932129,
+      "intersection_score": 53.912559509277344,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        8
+      ],
+      "intensity": 12.003921508789063,
+      "intersection_score": 191.3606414794922,
+      "motion_type": 0,
+      "num_cameras": 3,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        8
+      ],
+      "intensity": 11.701961517333984,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        28,
+        20
+      ],
+      "intensity": 10.572549819946289,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        2.1745758056640625,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        9
+      ],
+      "intensity": 10.305882453918457,
+      "intersection_score": 45.60930633544922,
+      "motion_type": 0,
+      "num_cameras": 3,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        5
+      ],
+      "intensity": 10.007843017578125,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        13
+      ],
+      "intensity": 9.882353782653809,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        36,
+        28,
+        24
+      ],
+      "intensity": 9.600000381469727,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        17.400650024414063,
+        2.1745758056640625,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        28
+      ],
+      "intensity": 9.317647933959961,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        9
+      ],
+      "intensity": 7.486274719238281,
+      "intersection_score": 13.182847023010254,
+      "motion_type": 0,
+      "num_cameras": 3,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        7
+      ],
+      "intensity": 7.027451038360596,
+      "intersection_score": 24.566551208496094,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        6
+      ],
+      "intensity": 6.462745189666748,
+      "intersection_score": 20.31464958190918,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        29,
+        2
+      ],
+      "intensity": 6.337255477905273,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        7.1745758056640625,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        4
+      ],
+      "intensity": 6.007843017578125,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        27,
+        2
+      ],
+      "intensity": 5.772550106048584,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        -2.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        28,
+        22
+      ],
+      "intensity": 5.599999904632568,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        2.1745758056640625,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        28,
+        15
+      ],
+      "intensity": 5.599999904632568,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        2.1745758056640625,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        28,
+        5
+      ],
+      "intensity": 4.9725494384765625,
+      "intersection_score": 8.332550048828125,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        2.4006500244140625,
+        2.1745758056640625,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        17
+      ],
+      "intensity": 4.658823490142822,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        28,
+        20
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        2.1745758056640625,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        28,
+        19
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        2.1745758056640625,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        28,
+        29
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        2.1745758056640625,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        28,
+        28
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        2.1745758056640625,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        28,
+        26
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        2.1745758056640625,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        28,
+        25
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        2.1745758056640625,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        28,
+        24
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        2.1745758056640625,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        28,
+        23
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        2.1745758056640625,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        28,
+        22
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        2.1745758056640625,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        28,
+        21
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        2.1745758056640625,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        27,
+        5
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        -2.8254241943359375,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        28,
+        18
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        2.1745758056640625,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        28,
+        17
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        2.1745758056640625,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        16
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        15
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        14
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        35,
+        27,
+        2
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        12.400650024414063,
+        -2.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        27,
+        3
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        -2.8254241943359375,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        27,
+        4
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        -2.8254241943359375,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        13
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        12
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        11
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        10
+      ],
+      "intensity": 4.643137454986572,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        29,
+        3
+      ],
+      "intensity": 4.329412460327148,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        7.1745758056640625,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        29,
+        4
+      ],
+      "intensity": 4.047059059143066,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        7.1745758056640625,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        29,
+        5
+      ],
+      "intensity": 4.047059059143066,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        7.1745758056640625,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        28,
+        16
+      ],
+      "intensity": 4.015686511993408,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        2.1745758056640625,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        28,
+        20
+      ],
+      "intensity": 3.984313726425171,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        2.1745758056640625,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        28,
+        27
+      ],
+      "intensity": 3.984313726425171,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        2.1745758056640625,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        10
+      ],
+      "intensity": 3.7647058963775635,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        11
+      ],
+      "intensity": 3.7647058963775635,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        12
+      ],
+      "intensity": 3.7647058963775635,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        13
+      ],
+      "intensity": 3.7647058963775635,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        13
+      ],
+      "intensity": 3.7647058963775635,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        14
+      ],
+      "intensity": 3.7647058963775635,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        6
+      ],
+      "intensity": 3.5764706134796143,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        23,
+        28
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -22.825424194335938,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        15
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        14
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        16
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        17
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        18
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        19
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        20
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        24,
+        21
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -17.825424194335938,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        24,
+        22
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -17.825424194335938,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        24,
+        23
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -17.825424194335938,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        24,
+        24
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -17.825424194335938,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        22,
+        29
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -27.825424194335938,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        23,
+        25
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -22.825424194335938,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        23,
+        26
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -22.825424194335938,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        23,
+        27
+      ],
+      "intensity": 3.356862783432007,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -22.825424194335938,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        28,
+        13
+      ],
+      "intensity": 3.3254902362823486,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        2.1745758056640625,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        28,
+        24
+      ],
+      "intensity": 3.3254902362823486,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        2.1745758056640625,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        5
+      ],
+      "intensity": 3.2627451419830322,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        24,
+        22
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -17.825424194335938,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        15
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        24,
+        23
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -17.825424194335938,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        24,
+        21
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -17.825424194335938,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        25,
+        20
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -12.825424194335938,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        25,
+        19
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -12.825424194335938,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        25,
+        18
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -12.825424194335938,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        25,
+        17
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -12.825424194335938,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        17
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        16
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        22,
+        30
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -27.825424194335938,
+        152.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        24,
+        24
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -17.825424194335938,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        22,
+        29
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -27.825424194335938,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        23,
+        25
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -22.825424194335938,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        23,
+        26
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -22.825424194335938,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        23,
+        27
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -22.825424194335938,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        23,
+        28
+      ],
+      "intensity": 2.9803922176361084,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -22.825424194335938,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        8
+      ],
+      "intensity": 2.694117546081543,
+      "intersection_score": 3.626912832260132,
+      "motion_type": 0,
+      "num_cameras": 2,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        28,
+        27
+      ],
+      "intensity": 2.6666667461395264,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        2.1745758056640625,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        17
+      ],
+      "intensity": 2.60392165184021,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        11
+      ],
+      "intensity": 2.5725491046905518,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        13
+      ],
+      "intensity": 2.5725491046905518,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        12
+      ],
+      "intensity": 2.5725491046905518,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        10
+      ],
+      "intensity": 2.5725491046905518,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        29,
+        5
+      ],
+      "intensity": 2.43137264251709,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        7.1745758056640625,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        29,
+        4
+      ],
+      "intensity": 2.290196180343628,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        7.1745758056640625,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        29,
+        3
+      ],
+      "intensity": 2.290196180343628,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        7.1745758056640625,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        25,
+        21
+      ],
+      "intensity": 2.290196180343628,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -12.825424194335938,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        22,
+        28
+      ],
+      "intensity": 2.2274510860443115,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -27.825424194335938,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        27,
+        13
+      ],
+      "intensity": 2.1960785388946533,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -2.8254241943359375,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        23,
+        24
+      ],
+      "intensity": 2.007843255996704,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -22.825424194335938,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        29,
+        2
+      ],
+      "intensity": 2.007843255996704,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        7.1745758056640625,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        28,
+        28
+      ],
+      "intensity": 1.976470708847046,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        2.1745758056640625,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        21
+      ],
+      "intensity": 1.9764705896377563,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        7
+      ],
+      "intensity": 1.9450980424880981,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        24,
+        8
+      ],
+      "intensity": 1.6941176652908325,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -17.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        25,
+        6
+      ],
+      "intensity": 1.6941176652908325,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -12.825424194335938,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        25,
+        5
+      ],
+      "intensity": 1.6941176652908325,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -12.825424194335938,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        4
+      ],
+      "intensity": 1.6941176652908325,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        3
+      ],
+      "intensity": 1.6941176652908325,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        2
+      ],
+      "intensity": 1.6941176652908325,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        22,
+        28
+      ],
+      "intensity": 1.600000023841858,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -27.825424194335938,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        24,
+        25
+      ],
+      "intensity": 1.600000023841858,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -17.825424194335938,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        23,
+        11
+      ],
+      "intensity": 1.4117647409439087,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -22.825424194335938,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        24,
+        20
+      ],
+      "intensity": 1.3803921937942505,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -17.825424194335938,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        23,
+        29
+      ],
+      "intensity": 1.3803921937942505,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -22.825424194335938,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        23,
+        24
+      ],
+      "intensity": 1.3803921937942505,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -22.825424194335938,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        24,
+        25
+      ],
+      "intensity": 1.3490196466445923,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -17.825424194335938,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        12
+      ],
+      "intensity": 1.317647099494934,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        28,
+        23
+      ],
+      "intensity": 1.317647099494934,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        2.1745758056640625,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        3
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        23,
+        29
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -22.825424194335938,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        27,
+        2
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -2.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        5
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        26,
+        5
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -7.8254241943359375,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        25,
+        7
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        -12.825424194335938,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        25,
+        8
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        -12.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        25,
+        8
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -12.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        24,
+        9
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -17.825424194335938,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        24,
+        10
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        -17.825424194335938,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        24,
+        11
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -17.825424194335938,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        23,
+        12
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -22.825424194335938,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        23,
+        13
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -22.825424194335938,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        22,
+        15
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -27.825424194335938,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        19,
+        25
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -42.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        22,
+        16
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -27.825424194335938,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        20,
+        22
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -37.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        21,
+        18
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -32.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        20,
+        21
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -37.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        21,
+        19
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -32.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        25,
+        6
+      ],
+      "intensity": 1.1294118165969849,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        -12.825424194335938,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        28,
+        5
+      ],
+      "intensity": 1.066666841506958,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        2.1745758056640625,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        18,
+        28
+      ],
+      "intensity": 0.8470588326454163,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -47.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        23,
+        14
+      ],
+      "intensity": 0.8470588326454163,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -22.825424194335938,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        24,
+        11
+      ],
+      "intensity": 0.8470588326454163,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        -17.825424194335938,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        19,
+        24
+      ],
+      "intensity": 0.8470588326454163,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -42.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        16
+      ],
+      "intensity": 0.7529412508010864,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        24,
+        20
+      ],
+      "intensity": 0.6901960968971252,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -17.825424194335938,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        28,
+        26
+      ],
+      "intensity": 0.658823549747467,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        2.1745758056640625,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        28,
+        19
+      ],
+      "intensity": 0.658823549747467,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        2.1745758056640625,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        28,
+        17
+      ],
+      "intensity": 0.6274510025978088,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        2.1745758056640625,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        64,
+        11,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        157.40065002441406,
+        -82.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        22,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -27.825424194335938,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        65,
+        10,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        162.40065002441406,
+        -87.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        65,
+        11,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        162.40065002441406,
+        -82.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        22,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -27.825424194335938,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        21,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -32.82542419433594,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        64,
+        11,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        157.40065002441406,
+        -82.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        21,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -32.82542419433594,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        66,
+        10,
+        28
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        167.40065002441406,
+        -87.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        63,
+        12,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        152.40065002441406,
+        -77.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        63,
+        12,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        152.40065002441406,
+        -77.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        21,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -32.82542419433594,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        62,
+        12,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        147.40065002441406,
+        -77.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        21,
+        15
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -32.82542419433594,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        23,
+        8
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -22.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        25,
+        4
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -12.825424194335938,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        25,
+        4
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -12.825424194335938,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        26,
+        2
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        -7.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        0,
+        11,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        172.40065002441406,
+        -87.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        20,
+        15
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -37.82542419433594,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        24,
+        6
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        -17.825424194335938,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        30,
+        24,
+        7
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -12.599349975585938,
+        -17.825424194335938,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        24,
+        7
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -17.825424194335938,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        65,
+        10,
+        28
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        162.40065002441406,
+        -87.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        23,
+        9
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        -22.825424194335938,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        23,
+        10
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        -22.825424194335938,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        23,
+        10
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -22.825424194335938,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        66,
+        10,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        167.40065002441406,
+        -87.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        22,
+        11
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -27.825424194335938,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        22,
+        11
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -27.825424194335938,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        22,
+        12
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -27.825424194335938,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        43,
+        23,
+        7
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        52.40065002441406,
+        -22.825424194335938,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        49,
+        20,
+        12
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        82.40065002441406,
+        -37.82542419433594,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        48,
+        20,
+        12
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        77.40065002441406,
+        -37.82542419433594,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        48,
+        20,
+        11
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        77.40065002441406,
+        -37.82542419433594,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        47,
+        20,
+        11
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        72.40065002441406,
+        -37.82542419433594,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        47,
+        21,
+        11
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        72.40065002441406,
+        -32.82542419433594,
+        57.5
+      ]
+    },
+    {
+      "coordinates": [
+        47,
+        21,
+        10
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        72.40065002441406,
+        -32.82542419433594,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        46,
+        21,
+        10
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        67.40065002441406,
+        -32.82542419433594,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        46,
+        21,
+        9
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        67.40065002441406,
+        -32.82542419433594,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        46,
+        22,
+        9
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        67.40065002441406,
+        -27.825424194335938,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        45,
+        22,
+        9
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        62.40065002441406,
+        -27.825424194335938,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        45,
+        22,
+        8
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        62.40065002441406,
+        -27.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        44,
+        22,
+        8
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        57.40065002441406,
+        -27.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        44,
+        23,
+        8
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        57.40065002441406,
+        -22.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        44,
+        23,
+        7
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        57.40065002441406,
+        -22.825424194335938,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        49,
+        19,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        82.40065002441406,
+        -42.82542419433594,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        43,
+        23,
+        6
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        52.40065002441406,
+        -22.825424194335938,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        42,
+        23,
+        6
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        47.40065002441406,
+        -22.825424194335938,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        42,
+        24,
+        6
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        47.40065002441406,
+        -17.825424194335938,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        42,
+        24,
+        5
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        47.40065002441406,
+        -17.825424194335938,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        41,
+        24,
+        5
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        42.40065002441406,
+        -17.825424194335938,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        40,
+        24,
+        4
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        37.40065002441406,
+        -17.825424194335938,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        40,
+        25,
+        4
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        37.40065002441406,
+        -12.825424194335938,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        39,
+        25,
+        4
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        32.40065002441406,
+        -12.825424194335938,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        39,
+        25,
+        3
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        32.40065002441406,
+        -12.825424194335938,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        25,
+        3
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        -12.825424194335938,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        26,
+        3
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        -7.8254241943359375,
+        17.5
+      ]
+    },
+    {
+      "coordinates": [
+        37,
+        26,
+        2
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        22.400650024414063,
+        -7.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        38,
+        26,
+        2
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        27.400650024414063,
+        -7.8254241943359375,
+        12.5
+      ]
+    },
+    {
+      "coordinates": [
+        56,
+        16,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        117.40065002441406,
+        -57.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        62,
+        13,
+        24
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        147.40065002441406,
+        -72.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        61,
+        13,
+        24
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        142.40065002441406,
+        -72.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        61,
+        13,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        142.40065002441406,
+        -72.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        60,
+        13,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        137.40065002441406,
+        -72.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        60,
+        13,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        137.40065002441406,
+        -72.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        60,
+        14,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        137.40065002441406,
+        -67.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        59,
+        14,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        132.40065002441406,
+        -67.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        59,
+        14,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        132.40065002441406,
+        -67.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        58,
+        14,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        127.40065002441406,
+        -67.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        58,
+        15,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        127.40065002441406,
+        -62.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        58,
+        15,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        127.40065002441406,
+        -62.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        57,
+        15,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        122.40065002441406,
+        -62.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        57,
+        15,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        122.40065002441406,
+        -62.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        56,
+        15,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        117.40065002441406,
+        -62.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        62,
+        12,
+        24
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        147.40065002441406,
+        -77.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        56,
+        16,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        117.40065002441406,
+        -57.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        55,
+        16,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        112.40065002441406,
+        -57.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        54,
+        17,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        107.40065002441406,
+        -52.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        53,
+        17,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        102.40065002441406,
+        -52.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        53,
+        17,
+        16
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        102.40065002441406,
+        -52.82542419433594,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        53,
+        18,
+        16
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        102.40065002441406,
+        -47.82542419433594,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        52,
+        18,
+        16
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        97.40065002441406,
+        -47.82542419433594,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        52,
+        18,
+        15
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        97.40065002441406,
+        -47.82542419433594,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        51,
+        18,
+        15
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        92.40065002441406,
+        -47.82542419433594,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        51,
+        18,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        92.40065002441406,
+        -47.82542419433594,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        51,
+        19,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        92.40065002441406,
+        -42.82542419433594,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        50,
+        19,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        87.40065002441406,
+        -42.82542419433594,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        50,
+        19,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        87.40065002441406,
+        -42.82542419433594,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        19,
+        24
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -42.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        19,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -42.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        14,
+        17,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -92.59934997558594,
+        -52.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        17,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -52.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        18,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -47.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        18,
+        28
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -47.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        18,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -47.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        18,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -47.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        18,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -47.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        19,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -42.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        19,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -42.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        14,
+        17,
+        30
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -92.59934997558594,
+        -52.82542419433594,
+        152.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        18,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -47.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        19,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -42.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        20,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -37.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        20,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -37.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        20,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -37.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        20,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -37.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        21,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -32.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        21,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -32.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        21,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -32.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        21,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -32.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        22,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -27.825424194335938,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        19,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -42.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        20,
+        24
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -37.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        20,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -37.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        20,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -37.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        21,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -32.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        21,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -32.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        21,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -32.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        21,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -32.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        19,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -42.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        22,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -27.825424194335938,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        22,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -27.825424194335938,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        22,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -27.825424194335938,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        22,
+        16
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -27.825424194335938,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        23,
+        15
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -22.825424194335938,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        23,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -22.825424194335938,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        23,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -22.825424194335938,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        24,
+        10
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -17.825424194335938,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        31,
+        25,
+        7
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -7.5993499755859375,
+        -12.825424194335938,
+        37.5
+      ]
+    },
+    {
+      "coordinates": [
+        33,
+        26,
+        4
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        2.4006500244140625,
+        -7.8254241943359375,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        14,
+        17,
+        31
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -92.59934997558594,
+        -52.82542419433594,
+        157.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        18,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -47.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        16,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -57.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        22,
+        16
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -27.825424194335938,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        16,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -57.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        16,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -57.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        17,
+        25
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -52.82542419433594,
+        127.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        17,
+        24
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -52.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        17,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -52.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        17,
+        23
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -52.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        17,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -52.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        20,
+        16
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -37.82542419433594,
+        82.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        16,
+        26
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -57.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        18,
+        22
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -47.82542419433594,
+        112.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        18,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -47.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        18,
+        21
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -47.82542419433594,
+        107.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        18,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -47.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        19,
+        20
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -42.82542419433594,
+        102.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        19,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -42.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        19,
+        19
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -42.82542419433594,
+        97.5
+      ]
+    },
+    {
+      "coordinates": [
+        21,
+        19,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -57.59934997558594,
+        -42.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        19,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -42.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        20,
+        18
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -37.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        16,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -57.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        22,
+        15
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -27.825424194335938,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        22,
+        14
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -27.825424194335938,
+        72.5
+      ]
+    },
+    {
+      "coordinates": [
+        25,
+        23,
+        13
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -37.59934997558594,
+        -22.825424194335938,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        23,
+        12
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -22.825424194335938,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        18,
+        28
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -47.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        24,
+        9
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        -17.825424194335938,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        18,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -47.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        18,
+        30
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -47.82542419433594,
+        152.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        20,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -37.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        22,
+        20,
+        17
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -52.59934997558594,
+        -37.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        17,
+        30
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -52.82542419433594,
+        152.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        17,
+        31
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -52.82542419433594,
+        157.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        17,
+        32
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -52.82542419433594,
+        162.5
+      ]
+    },
+    {
+      "coordinates": [
+        14,
+        15,
+        29
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -92.59934997558594,
+        -62.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        14,
+        15,
+        28
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -92.59934997558594,
+        -62.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        15,
+        28
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -62.82542419433594,
+        142.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        15,
+        27
+      ],
+      "intensity": 0.5647059082984924,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -62.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        19,
+        27
+      ],
+      "intensity": 0.4235294461250305,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -42.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        19,
+        20,
+        24
+      ],
+      "intensity": 0.4235294461250305,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -67.59934997558594,
+        -37.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        23,
+        21,
+        15
+      ],
+      "intensity": 0.4235294461250305,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -47.59934997558594,
+        -32.82542419433594,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        15,
+        18,
+        30
+      ],
+      "intensity": 0.4235294461250305,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -87.59934997558594,
+        -47.82542419433594,
+        152.5
+      ]
+    },
+    {
+      "coordinates": [
+        55,
+        17,
+        17
+      ],
+      "intensity": 0.4235294461250305,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        112.40065002441406,
+        -52.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        63,
+        11,
+        26
+      ],
+      "intensity": 0.4235294461250305,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        152.40065002441406,
+        -82.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        32,
+        26,
+        12
+      ],
+      "intensity": 0.3764706254005432,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -2.5993499755859375,
+        -7.8254241943359375,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        34,
+        27,
+        6
+      ],
+      "intensity": 0.3137255012989044,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        7.4006500244140625,
+        -2.8254241943359375,
+        32.5
+      ]
+    },
+    {
+      "coordinates": [
+        29,
+        23,
+        9
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -17.599349975585938,
+        -22.825424194335938,
+        47.5
+      ]
+    },
+    {
+      "coordinates": [
+        28,
+        23,
+        8
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -22.599349975585938,
+        -22.825424194335938,
+        42.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        24,
+        12
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -17.825424194335938,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        17,
+        18,
+        29
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -77.59934997558594,
+        -47.82542419433594,
+        147.5
+      ]
+    },
+    {
+      "coordinates": [
+        26,
+        23,
+        15
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -32.59934997558594,
+        -22.825424194335938,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        40,
+        24,
+        5
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        37.40065002441406,
+        -17.825424194335938,
+        27.5
+      ]
+    },
+    {
+      "coordinates": [
+        49,
+        19,
+        12
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        82.40065002441406,
+        -42.82542419433594,
+        62.5
+      ]
+    },
+    {
+      "coordinates": [
+        55,
+        17,
+        18
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        112.40065002441406,
+        -52.82542419433594,
+        92.5
+      ]
+    },
+    {
+      "coordinates": [
+        49,
+        20,
+        13
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        82.40065002441406,
+        -37.82542419433594,
+        67.5
+      ]
+    },
+    {
+      "coordinates": [
+        41,
+        24,
+        4
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        42.40065002441406,
+        -17.825424194335938,
+        22.5
+      ]
+    },
+    {
+      "coordinates": [
+        27,
+        24,
+        10
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -27.599349975585938,
+        -17.825424194335938,
+        52.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        19,
+        23
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -42.82542419433594,
+        117.5
+      ]
+    },
+    {
+      "coordinates": [
+        55,
+        16,
+        17
+      ],
+      "intensity": 0.2823529541492462,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        112.40065002441406,
+        -57.82542419433594,
+        87.5
+      ]
+    },
+    {
+      "coordinates": [
+        64,
+        12,
+        26
+      ],
+      "intensity": 0.1411764770746231,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        157.40065002441406,
+        -77.82542419433594,
+        132.5
+      ]
+    },
+    {
+      "coordinates": [
+        24,
+        20,
+        15
+      ],
+      "intensity": 0.1411764770746231,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -42.59934997558594,
+        -37.82542419433594,
+        77.5
+      ]
+    },
+    {
+      "coordinates": [
+        20,
+        19,
+        24
+      ],
+      "intensity": 0.1411764770746231,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -62.59934997558594,
+        -42.82542419433594,
+        122.5
+      ]
+    },
+    {
+      "coordinates": [
+        18,
+        18,
+        27
+      ],
+      "intensity": 0.1411764770746231,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -72.59934997558594,
+        -47.82542419433594,
+        137.5
+      ]
+    },
+    {
+      "coordinates": [
+        16,
+        17,
+        30
+      ],
+      "intensity": 0.1411764770746231,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        -82.59934997558594,
+        -52.82542419433594,
+        152.5
+      ]
+    },
+    {
+      "coordinates": [
+        54,
+        16,
+        17
+      ],
+      "intensity": 0.1411764770746231,
+      "intersection_score": 0.0,
+      "motion_type": 0,
+      "num_cameras": 1,
+      "position_m": [
+        107.40065002441406,
+        -57.82542419433594,
+        87.5
+      ]
+    }
+  ]
+}

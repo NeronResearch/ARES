@@ -189,10 +189,10 @@ std::optional<Camera> Scenario::loadCamera(const json& cameraInfo, int frame) {
     std::string prevFrameBuffer = formatFrame(prevFrame);
 
     
-    std::string img1 = framesDir + "/" + frameBuffer + ".jpg";
-    std::string img2 = framesDir + "/" + prevFrameBuffer + ".jpg";
-    std::string skyMaskPath = framesDir + "/sky_mask.jpg";
-    std::string jsonPath = framesDir + "/" + frameBuffer + ".json";
+    std::string img1 = framesDir + "\\" + frameBuffer + ".jpg";
+    std::string img2 = framesDir + "\\" + prevFrameBuffer + ".jpg";
+    std::string skyMaskPath = framesDir + "\\sky_mask.jpg";
+    std::string jsonPath = framesDir + "\\" + frameBuffer + ".json";
 
 
     // Time image loading

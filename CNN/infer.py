@@ -1,4 +1,6 @@
 import os
+os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
+os.environ.setdefault('OMP_NUM_THREADS', '8')
 import json
 import glob
 import argparse
@@ -161,7 +163,7 @@ class Simple4DUNet(nn.Module):
         logits = self.head(d2)
         return logits
 
-def infer(model_path: str, frame_dir: str, out_dir: str):
+def infer(model_path: str, frame_dir: str, out_dir: str, end_frame: int = None, clip_len: int = 10):
     import os
     import json
     import glob
@@ -172,12 +174,24 @@ def infer(model_path: str, frame_dir: str, out_dir: str):
     device = torch.device("cpu")
 
     # ----------------------------
-    # Load all frame JSONs
-    # ----------------------------
-    frame_files = sorted(glob.glob(os.path.join(frame_dir, "*.json")))
-    if len(frame_files) == 0:
-        raise RuntimeError(f"No .json files found in {frame_dir}")
-    print(f"Found {len(frame_files)} frames")
+    # Load frame JSONs
+    # If end_frame is provided, select the previous `clip_len` frames ending at that index.
+    # Otherwise, load all .json files in directory.
+    if end_frame is not None:
+        if end_frame < 1:
+            raise RuntimeError(f"--frame must be >= 1, got {end_frame}")
+        start_frame = max(1, end_frame - clip_len + 1)
+        desired = [os.path.join(frame_dir, f"{i:04d}.json") for i in range(start_frame, end_frame + 1)]
+        missing = [p for p in desired if not os.path.isfile(p)]
+        if missing:
+            raise RuntimeError(f"Missing frame JSON files for requested range {start_frame}-{end_frame}: {missing}")
+        frame_files = desired
+        print(f"Selected frames {start_frame:04d}.json - {end_frame:04d}.json ({len(frame_files)} files)")
+    else:
+        frame_files = sorted(glob.glob(os.path.join(frame_dir, "*.json")))
+        if len(frame_files) == 0:
+            raise RuntimeError(f"No .json files found in {frame_dir}")
+        print(f"Found {len(frame_files)} frames")
 
     all_coords = []
     all_feats = []
@@ -207,7 +221,7 @@ def infer(model_path: str, frame_dir: str, out_dir: str):
             return vec
         motion_oh = np.stack([one_hot_motion(v.get("motion_type", 0)) for v in vox], axis=0)
 
-        # normalized time index
+        # normalized time index (0..1 across the selected clip)
         t_norm = np.full((len(vox), 1), float(t) / max(1, len(frame_files) - 1), dtype=np.float32)
 
         # feature vector: [intensity_norm, 5x onehot(motion), t_norm] → 7D
@@ -269,6 +283,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True, help="Path to model_final.pt")
     ap.add_argument("--frames", required=True, help="Directory containing 0000..0009.json")
+    ap.add_argument("--frame", type=int, default=10, help="(optional) end frame index (1-based). If provided, the clip will be the previous --clip-length frames ending at this frame. Example: --frame 10 grabs 0001.json..0010.json")
+    ap.add_argument("--clip-length", type=int, default=10, help="Number of frames to include in clip when using --frame (default: 10)")
     ap.add_argument("--out", required=True, help="Output directory")
     args = ap.parse_args()
-    infer(args.model, args.frames, args.out)
+    infer(args.model, args.frames, args.out, end_frame=args.frame, clip_len=args.clip_length)
