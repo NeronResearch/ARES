@@ -7,4 +7,4 @@ cmake --build . --config Release
 ..\bin\Release\VoxelEngine.exe E:\Code\Neron\ARES\Scenarios\Scenario2\scenario.json
 
 
-g++ -std=c++17 -O3 -march=native -DNDEBUG -IC:/msys64/mingw64/include -LC:/msys64/mingw64/lib src/main_infer.cpp src/PixelMotion.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp -o bin/main_infer.exe -lzmq -lm
+g++ -std=c++17 -O3 -march=native -DNDEBUG E:\Code\Neron\ARES\Voxel_Engine\src\test.cpp E:\Code\cnpy\cnpy.cpp -o E:\Code\Neron\ARES\Voxel_Engine\bin\test.exe -IE:\Code\cnpy -IE:\msys64\mingw64\include -LE:\msys64\mingw64\lib -lzmq -lws2_32 -liphlpapi -lz -lm

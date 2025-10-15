@@ -184,7 +184,7 @@ def visualize_frame_with_heatmap(npz_path: str, frames_dir: str, frame_name: str
 
 if __name__ == "__main__":
     visualize_frame_with_heatmap(
-        npz_path="output\predictions_clip.npz",
+        npz_path="predictions_clip.npz",
         frames_dir=r"E:\Code\Neron\ARES\Frames\FernBellPark",
         frame_name="0125.json",
         sigma=2.0

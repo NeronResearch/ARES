@@ -1,7 +1,18 @@
-import mmap, numpy as np, signal, zmq, json, torch, os, MinkowskiEngine as ME
+import os
+import mmap
+import signal
+import zmq
+import json
+import torch
+import numpy as np
+import MinkowskiEngine as ME
+from time import time
+
+# ----------------------------------------------------
+# Environment setup
+# ----------------------------------------------------
 os.environ.setdefault('OMP_NUM_THREADS', '8')
 os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
-from time import time
 
 # ----------------------------------------------------
 # Graceful shutdown
@@ -33,7 +44,8 @@ class ConvBNReLU(torch.nn.Module):
             ME.MinkowskiBatchNorm(c_out),
             ME.MinkowskiReLU(inplace=True),
         )
-    def forward(self, x): return self.block(x)
+    def forward(self, x):
+        return self.block(x)
 
 class ResidualBlock(torch.nn.Module):
     def __init__(self, c, dim=4):
@@ -51,22 +63,17 @@ class ResidualBlock(torch.nn.Module):
 class Simple4DUNet(torch.nn.Module):
     def __init__(self, c_in=7, c_mid=32, dim=4):
         super().__init__()
-        self.dim = dim
-        # Encoder
         self.stem = ConvBNReLU(c_in, c_mid, dim=dim)
         self.enc1 = ResidualBlock(c_mid, dim=dim)
         self.down1 = ME.MinkowskiConvolution(c_mid, c_mid * 2, kernel_size=2, stride=(2,2,2,2), dimension=dim)
         self.enc2 = ResidualBlock(c_mid * 2, dim=dim)
         self.down2 = ME.MinkowskiConvolution(c_mid * 2, c_mid * 4, kernel_size=2, stride=(2,2,2,1), dimension=dim)
         self.bottleneck = ResidualBlock(c_mid * 4, dim=dim)
-        # Decoder
         self.up1 = ME.MinkowskiConvolutionTranspose(c_mid * 4, c_mid * 2, kernel_size=2, stride=(2,2,2,1), dimension=dim)
         self.dec1 = ResidualBlock(c_mid * 2, dim=dim)
         self.up2 = ME.MinkowskiConvolutionTranspose(c_mid * 2, c_mid, kernel_size=2, stride=(2,2,2,2), dimension=dim)
         self.dec2 = ResidualBlock(c_mid, dim=dim)
-        # Head
         self.head = ME.MinkowskiConvolution(c_mid, 1, kernel_size=1, stride=1, dimension=dim)
-
     def forward(self, x):
         x0 = self.stem(x)
         x1 = self.enc1(x0)
@@ -76,14 +83,13 @@ class Simple4DUNet(torch.nn.Module):
         d1 = self.dec1(u1)
         u2 = self.up2(d1)
         d2 = self.dec2(u2)
-        logits = self.head(d2)
-        return logits
+        return self.head(d2)
 
 # ----------------------------------------------------
-# Load model weights
+# Load model
 # ----------------------------------------------------
-model_path = "model_final.pt"
 device = torch.device("cpu")
+model_path = "model_final.pt"
 model = Simple4DUNet(c_in=7, c_mid=32, dim=4).to(device)
 ckpt = torch.load(model_path, map_location=device)
 state = ckpt.get("model_state", ckpt)
@@ -95,6 +101,7 @@ print(f"[Python] Loaded model from {model_path}")
 # Shared memory helper
 # ----------------------------------------------------
 def open_shm(name, size, dtype):
+    """Open existing shared memory by name and return ndarray + mmap handle."""
     f = mmap.mmap(-1, size, name)
     arr = np.ndarray(shape=(size // np.dtype(dtype).itemsize,), dtype=dtype, buffer=f)
     return arr, f
@@ -117,33 +124,50 @@ while RUNNING:
         feats_bytes  = ncoords * nfeats * 4
 
         coords_np, coords_map = open_shm(coords_name, coords_bytes, np.int32)
-        feats_np, feats_map   = open_shm(feats_name, feats_bytes, np.float32)
+        feats_np,  feats_map  = open_shm(feats_name,  feats_bytes,  np.float32)
 
         coords = torch.from_numpy(coords_np.reshape(ncoords, coord_dim)).to(device)
         feats  = torch.from_numpy(feats_np.reshape(ncoords, nfeats)).to(device)
 
-        # Add batch column for ME SparseTensor
         batch_col = torch.zeros((ncoords, 1), dtype=torch.int32, device=device)
         coords_me = torch.cat([batch_col, coords], dim=1)
-
         st = ME.SparseTensor(features=feats, coordinates=coords_me, device=device)
 
+        # --- Perform inference ---
         with torch.no_grad():
             start = time()
-            out = model(st)
-            logits = out.F
-            probs = torch.sigmoid(logits).squeeze(1).cpu().numpy()
+            logits = model(st).F
+            probs = torch.sigmoid(logits).squeeze(1).cpu().numpy().astype(np.float32)
             dur = (time() - start) * 1000
 
         print(f"[Python] Inference OK ({ncoords} voxels) in {dur:.2f} ms")
 
         out_bytes = ncoords * 4
-        out_map = mmap.mmap(-1, out_bytes, out_name)
-        np.ndarray((ncoords,), dtype=np.float32, buffer=out_map)[:] = probs.astype(np.float32)
 
+        # IMPORTANT: Open the *existing* mapping created by C++
+        # Use READ|WRITE to be compatible with FILE_MAP_ALL_ACCESS on Windows
+        try:
+            out_map = mmap.mmap(-1, out_bytes, out_name, access=mmap.ACCESS_WRITE)
+        except PermissionError:
+            out_map = mmap.mmap(-1, out_bytes, out_name, access=mmap.ACCESS_READ | mmap.ACCESS_WRITE)
+
+        np.ndarray((ncoords,), dtype=np.float32, buffer=out_map)[:] = probs
+        out_map.flush()
+
+        # Send acknowledgment before closing handles
         socket.send_json({"status": "ok", "nbytes": out_bytes})
+
+        # Close input maps only
+        feats_map.close()
+        coords_map.close()
+        # Leave out_map open until C++ closes its handle
 
     except zmq.Again:
         continue
     except Exception as e:
-        socket.send_json({"status": "error", "message": str(e)})
+        err = str(e)
+        print(f"[Python] Error: {err}")
+        try:
+            socket.send_json({"status": "error", "message": err})
+        except Exception:
+            pass

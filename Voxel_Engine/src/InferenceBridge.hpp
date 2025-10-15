@@ -3,6 +3,9 @@
 #include <vector>
 #include <stdexcept>
 #include <iostream>
+#include <sstream>
+#include <chrono>
+#include <atomic>
 #include <unordered_map>
 #include "../third_party/json.hpp"
 #include "../third_party/zmq.hpp"
@@ -14,6 +17,7 @@
     #include <sys/mman.h>
     #include <fcntl.h>
     #include <unistd.h>
+    #include <sys/types.h>
 #endif
 
 class InferenceBridge {
@@ -31,84 +35,76 @@ public:
                              size_t ncoords,
                              size_t nfeats)
     {
-        // Shared memory names
-        std::string coords_name = "coords_shm";
-        std::string feats_name  = "feats_shm";
-        std::string out_name    = "out_shm";
+        if (ncoords == 0) return {};
 
-        size_t coords_bytes = ncoords * 4 * sizeof(int32_t);
-        size_t feats_bytes  = ncoords * nfeats * sizeof(float);
+        const size_t coord_dim = 4;
+        const size_t coords_bytes = ncoords * coord_dim * sizeof(int32_t);
+        const size_t feats_bytes  = ncoords * nfeats   * sizeof(float);
 
-        // --- Create shared memory blocks ---
+        // --- Unique shm names per call ---
+        std::string coords_name = makeShmName("coords");
+        std::string feats_name  = makeShmName("feats");
+        std::string out_name    = makeShmName("out");
+
+        // --- Create and fill shared memory ---
         void* coords_mem = createSharedMemory(coords_name, coords_bytes);
-        void* feats_mem  = createSharedMemory(feats_name, feats_bytes);
+        void* feats_mem  = createSharedMemory(feats_name,  feats_bytes);
 
         std::memcpy(coords_mem, coords.data(), coords_bytes);
-        std::memcpy(feats_mem, feats.data(), feats_bytes);
+        std::memcpy(feats_mem,  feats.data(),  feats_bytes);
 
         // --- Send metadata to Python ---
         nlohmann::json meta = {
             {"coords_shm", coords_name},
-            {"feats_shm", feats_name},
-            {"out_shm", out_name},
-            {"coords_shape", {ncoords, 4}},
-            {"feats_shape", {ncoords, nfeats}}
+            {"feats_shm",  feats_name},
+            {"out_shm",    out_name},
+            {"coords_shape", {ncoords, coord_dim}},
+            {"feats_shape",  {ncoords, nfeats}}
         };
-
-        socket.send(zmq::buffer(meta.dump()), zmq::send_flags::none);
+        
+        const std::string meta_str = meta.dump();
+        socket.send(zmq::buffer(meta_str), zmq::send_flags::none);
 
         zmq::message_t reply;
-        (void)socket.recv(reply, zmq::recv_flags::none);
+        auto r = socket.recv(reply, zmq::recv_flags::none);
+        if (!r) throw std::runtime_error("ZMQ recv failed");
 
-        std::string replyStr = reply.to_string();
-        std::cerr << "[C++] Raw reply from Python: " << replyStr << std::endl;
+        const std::string reply_str(static_cast<const char*>(reply.data()), reply.size());
+        std::cout << "[C++] Raw reply from Python: " << reply_str << std::endl;
 
-        nlohmann::json resp;
-        try {
-            resp = nlohmann::json::parse(replyStr);
-        } catch (const std::exception& e) {
-            cleanupSharedMemory(coords_name, coords_mem, coords_bytes,
-                                feats_name, feats_mem, feats_bytes,
-                                out_name, nullptr, 0);
-            throw std::runtime_error(std::string("Invalid JSON from Python: ") + e.what());
-        }
-
-        // --- Validate and handle response ---
-        if (resp.contains("status") && resp["status"].is_string()) {
-            std::string status = resp["status"];
-
-            if (status == "ok") {
-                if (!resp.contains("nbytes") || !resp["nbytes"].is_number()) {
-                    cleanupSharedMemory(coords_name, coords_mem, coords_bytes,
-                                        feats_name, feats_mem, feats_bytes,
-                                        out_name, nullptr, 0);
-                    throw std::runtime_error("Missing or invalid 'nbytes' in Python reply");
-                }
-
-                size_t out_bytes = resp["nbytes"].get<size_t>();
-                void* out_mem = openSharedMemory(out_name, out_bytes);
-
-                std::vector<float> out(ncoords);
-                std::memcpy(out.data(), out_mem, out_bytes);
-
-                cleanupSharedMemory(coords_name, coords_mem, coords_bytes,
-                                    feats_name, feats_mem, feats_bytes,
-                                    out_name, out_mem, out_bytes);
-
-                return out;
-            }
-
-            std::string msg = resp.value("message", "Unknown error from Python");
-            cleanupSharedMemory(coords_name, coords_mem, coords_bytes,
-                                feats_name, feats_mem, feats_bytes,
-                                out_name, nullptr, 0);
+        nlohmann::json resp = nlohmann::json::parse(reply_str);
+        bool ok = resp.value("status", "") == "ok";
+        if (!ok) {
+            // cleanup before throwing
+            destroySharedMemory(coords_name, coords_mem, coords_bytes);
+            destroySharedMemory(feats_name,  feats_mem,  feats_bytes);
+            const std::string msg = resp.value("message", "unknown");
             throw std::runtime_error("Python inference failed: " + msg);
         }
 
-        cleanupSharedMemory(coords_name, coords_mem, coords_bytes,
-                            feats_name, feats_mem, feats_bytes,
-                            out_name, nullptr, 0);
-        throw std::runtime_error("Invalid JSON: missing or non-string 'status'");
+        size_t out_bytes = resp.value("nbytes", static_cast<size_t>(0));
+        if (out_bytes != ncoords * sizeof(float)) {
+            // cleanup before throwing
+            destroySharedMemory(coords_name, coords_mem, coords_bytes);
+            destroySharedMemory(feats_name,  feats_mem,  feats_bytes);
+            std::ostringstream oss;
+            oss << "Unexpected out_bytes. Expected " << (ncoords * sizeof(float))
+                << " got " << out_bytes;
+            throw std::runtime_error(oss.str());
+        }
+
+        // --- Read output shared memory created by Python ---
+        void* out_mem = openSharedMemory(out_name, out_bytes);
+
+        std::vector<float> out(ncoords);
+        std::memcpy(out.data(), out_mem, out_bytes);
+
+        // Cleanup
+        destroySharedMemory(coords_name, coords_mem, coords_bytes);
+        destroySharedMemory(feats_name,  feats_mem,  feats_bytes);
+        destroySharedMemory(out_name,    out_mem,   out_bytes);
+
+        return out;
     }
 
 private:
@@ -116,30 +112,51 @@ private:
     zmq::socket_t socket;
     std::string endpoint;
 
+    static std::string makeShmName(const char* base) {
+        static std::atomic<uint64_t> counter{0};
+        uint64_t c = ++counter;
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        std::ostringstream oss;
+    #ifdef _WIN32
+        oss << "ares_" << base << "_" << GetCurrentProcessId() << "_" << now << "_" << c;
+    #else
+        oss << "ares_" << base << "_" << getpid() << "_" << now << "_" << c;
+    #endif
+        return oss.str();
+    }
+
 #ifdef _WIN32
     void* createSharedMemory(const std::string& name, size_t size) {
-        HANDLE hMapFile = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, (DWORD)size, name.c_str());
-        if (!hMapFile) throw std::runtime_error("CreateFileMappingA failed");
+        HANDLE hMapFile = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 
+                                             0, static_cast<DWORD>(size), name.c_str());
+        if (!hMapFile) throw std::runtime_error("CreateFileMappingA failed (" + name + ")");
         void* ptr = MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, size);
-        if (!ptr) throw std::runtime_error("MapViewOfFile failed");
+        if (!ptr) {
+            CloseHandle(hMapFile);
+            throw std::runtime_error("MapViewOfFile failed (" + name + ")");
+        }
         handle_map[name] = hMapFile;
         return ptr;
     }
 
     void* openSharedMemory(const std::string& name, size_t size) {
         HANDLE hMapFile = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.c_str());
-        if (!hMapFile) throw std::runtime_error("OpenFileMappingA failed");
+        if (!hMapFile) throw std::runtime_error("OpenFileMappingA failed (" + name + ")");
         void* ptr = MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, size);
-        if (!ptr) throw std::runtime_error("MapViewOfFile failed");
+        if (!ptr) {
+            CloseHandle(hMapFile);
+            throw std::runtime_error("MapViewOfFile failed (" + name + ")");
+        }
         handle_map[name] = hMapFile;
         return ptr;
     }
 
     void destroySharedMemory(const std::string& name, void* ptr, size_t) {
-        UnmapViewOfFile(ptr);
-        if (handle_map.count(name)) {
-            CloseHandle(handle_map[name]);
-            handle_map.erase(name);
+        if (ptr) UnmapViewOfFile(ptr);
+        auto it = handle_map.find(name);
+        if (it != handle_map.end()) {
+            CloseHandle(it->second);
+            handle_map.erase(it);
         }
     }
 
@@ -147,40 +164,29 @@ private:
 #else
     void* createSharedMemory(const std::string& name, size_t size) {
         int fd = shm_open(name.c_str(), O_CREAT | O_RDWR, 0666);
-        if (fd == -1) throw std::runtime_error("shm_open failed");
-        if (ftruncate(fd, size) == -1) throw std::runtime_error("ftruncate failed");
+        if (fd == -1) throw std::runtime_error("shm_open failed (" + name + ")");
+        if (ftruncate(fd, size) == -1) {
+            close(fd);
+            throw std::runtime_error("ftruncate failed (" + name + ")");
+        }
         void* ptr = mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-        if (ptr == MAP_FAILED) throw std::runtime_error("mmap failed");
         close(fd);
+        if (ptr == MAP_FAILED) throw std::runtime_error("mmap failed (" + name + ")");
         return ptr;
     }
 
     void* openSharedMemory(const std::string& name, size_t size) {
         int fd = shm_open(name.c_str(), O_RDWR, 0666);
-        if (fd == -1) throw std::runtime_error("shm_open open failed");
+        if (fd == -1) throw std::runtime_error("shm_open open failed (" + name + ")");
         void* ptr = mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-        if (ptr == MAP_FAILED) throw std::runtime_error("mmap open failed");
         close(fd);
+        if (ptr == MAP_FAILED) throw std::runtime_error("mmap open failed (" + name + ")");
         return ptr;
     }
 
     void destroySharedMemory(const std::string& name, void* ptr, size_t size) {
-        munmap(ptr, size);
+        if (ptr && ptr != MAP_FAILED) munmap(ptr, size);
         shm_unlink(name.c_str());
     }
 #endif
-
-    void cleanupSharedMemory(const std::string& n1, void* p1, size_t s1,
-                             const std::string& n2, void* p2, size_t s2,
-                             const std::string& n3, void* p3, size_t s3) {
-        try {
-            destroySharedMemory(n1, p1, s1);
-        } catch (...) {}
-        try {
-            destroySharedMemory(n2, p2, s2);
-        } catch (...) {}
-        try {
-            if (p3) destroySharedMemory(n3, p3, s3);
-        } catch (...) {}
-    }
 };

@@ -338,7 +338,7 @@ def analyze_motion_patterns(parsed_data):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python VoxelViewer.py <path_to_scene_json_file>")
-        print("Example: python VoxelViewer.py Scenarios/Scenario2/scenario.json")
+        print("Example: python VoxelViewer.py unified_scene_data.json")
         sys.exit(1)
     
     # Parse the unified scene data

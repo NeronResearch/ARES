@@ -34,8 +34,8 @@ int main(int argc, char** argv) {
 
 
     std::string scenarioPath = argv[1];
-    int frame1 = argc > 2 ? std::stoi(argv[2]) : 1;
-    int frame2 = argc > 3 ? std::stoi(argv[3]) : 25;
+    int frame1 = argc > 2 ? std::stoi(argv[2]) : 100;
+    int frame2 = argc > 3 ? std::stoi(argv[3]) : 125;
     std::string outputPath = argc > 4 ? argv[4] : "unified_scene_data.json";
     
     Scenario scenario = [&]() {
