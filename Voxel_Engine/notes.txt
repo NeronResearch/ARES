@@ -5,3 +5,6 @@ cd build
 cmake -G "Visual Studio 17 2022" -A x64 ..
 cmake --build . --config Release
 ..\bin\Release\VoxelEngine.exe E:\Code\Neron\ARES\Scenarios\Scenario2\scenario.json
+
+
+g++ -std=c++17 -O3 -march=native -DNDEBUG -IC:/msys64/mingw64/include -LC:/msys64/mingw64/lib src/main_infer.cpp src/PixelMotion.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp -o bin/main_infer.exe -lzmq -lm
