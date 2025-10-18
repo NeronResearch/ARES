@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
     Target target1 = targets1.empty() ? Target(0, -150, 100) : targets1[0];
     Target target2 = targets2.empty() ? Target(0, -150, 100) : targets2[0];
     
-    float topPercentage = .01f;
+    float topPercentage = 1.0f;
     
     cout << "\n=== SPARSE VOXEL ENGINE ===\n";
     

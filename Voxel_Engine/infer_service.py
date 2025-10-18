@@ -1,18 +1,22 @@
+# ----------------------------------------------------
+# Lightweight 4D Sparse Inference Service (Safe OpenMP)
+# ----------------------------------------------------
 import os
-import mmap
+# --- Must come BEFORE importing torch or MinkowskiEngine ---
+os.environ["OMP_NUM_THREADS"] = "2"
+os.environ["MKL_NUM_THREADS"] = "2"
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"     # Allow mixed OpenMP runtimes safely
+os.environ["KMP_INIT_AT_FORK"] = "FALSE"        # Prevent OpenMP reinit crashes
+os.environ["OMP_WAIT_POLICY"] = "PASSIVE"       # Lower idle CPU power draw
+
 import signal
 import zmq
 import json
 import torch
 import numpy as np
+import mmap
 import MinkowskiEngine as ME
 from time import time
-
-# ----------------------------------------------------
-# Environment setup
-# ----------------------------------------------------
-os.environ.setdefault('OMP_NUM_THREADS', '8')
-os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
 
 # ----------------------------------------------------
 # Graceful shutdown
@@ -30,7 +34,9 @@ signal.signal(signal.SIGINT, handle_sigint)
 ctx = zmq.Context()
 socket = ctx.socket(zmq.REP)
 socket.bind("tcp://127.0.0.1:5555")
-print("[Python] Inference service started on tcp://127.0.0.1:5555")
+print("[Python] Service ready on tcp://127.0.0.1:5555")
+
+device = torch.device("cpu")
 
 # ----------------------------------------------------
 # Model definitions
@@ -39,10 +45,9 @@ class ConvBNReLU(torch.nn.Module):
     def __init__(self, c_in, c_out, dim=4, ks=3, stride=1, dilation=1):
         super().__init__()
         self.block = torch.nn.Sequential(
-            ME.MinkowskiConvolution(in_channels=c_in, out_channels=c_out, kernel_size=ks,
-                                    stride=stride, dilation=dilation, dimension=dim),
+            ME.MinkowskiConvolution(c_in, c_out, kernel_size=ks, stride=stride, dilation=dilation, dimension=dim),
             ME.MinkowskiBatchNorm(c_out),
-            ME.MinkowskiReLU(inplace=True),
+            ME.MinkowskiReLU(inplace=True)
         )
     def forward(self, x):
         return self.block(x)
@@ -60,19 +65,19 @@ class ResidualBlock(torch.nn.Module):
         out = out + x
         return self.relu(out)
 
-class Simple4DUNet(torch.nn.Module):
-    def __init__(self, c_in=7, c_mid=32, dim=4):
+class Simple4DUNet_Slim(torch.nn.Module):
+    def __init__(self, c_in=7, c_mid=16, dim=4):
         super().__init__()
-        self.stem = ConvBNReLU(c_in, c_mid, dim=dim)
-        self.enc1 = ResidualBlock(c_mid, dim=dim)
+        self.stem = ConvBNReLU(c_in, c_mid, dim)
+        self.enc1 = ResidualBlock(c_mid, dim)
         self.down1 = ME.MinkowskiConvolution(c_mid, c_mid * 2, kernel_size=2, stride=(2,2,2,2), dimension=dim)
-        self.enc2 = ResidualBlock(c_mid * 2, dim=dim)
+        self.enc2 = ResidualBlock(c_mid * 2, dim)
         self.down2 = ME.MinkowskiConvolution(c_mid * 2, c_mid * 4, kernel_size=2, stride=(2,2,2,1), dimension=dim)
-        self.bottleneck = ResidualBlock(c_mid * 4, dim=dim)
+        self.bottleneck = ResidualBlock(c_mid * 4, dim)
         self.up1 = ME.MinkowskiConvolutionTranspose(c_mid * 4, c_mid * 2, kernel_size=2, stride=(2,2,2,1), dimension=dim)
-        self.dec1 = ResidualBlock(c_mid * 2, dim=dim)
+        self.dec1 = ResidualBlock(c_mid * 2, dim)
         self.up2 = ME.MinkowskiConvolutionTranspose(c_mid * 2, c_mid, kernel_size=2, stride=(2,2,2,2), dimension=dim)
-        self.dec2 = ResidualBlock(c_mid, dim=dim)
+        self.dec2 = ResidualBlock(c_mid, dim)
         self.head = ME.MinkowskiConvolution(c_mid, 1, kernel_size=1, stride=1, dimension=dim)
     def forward(self, x):
         x0 = self.stem(x)
@@ -86,24 +91,42 @@ class Simple4DUNet(torch.nn.Module):
         return self.head(d2)
 
 # ----------------------------------------------------
-# Load model
+# Safe checkpoint loader (channel-sliced)
 # ----------------------------------------------------
-device = torch.device("cpu")
-model_path = "model_final.pt"
-model = Simple4DUNet(c_in=7, c_mid=32, dim=4).to(device)
-ckpt = torch.load(model_path, map_location=device)
-state = ckpt.get("model_state", ckpt)
-model.load_state_dict(state, strict=True)
+def load_sliced_weights(model, ckpt_path):
+    if not os.path.exists(ckpt_path):
+        print("[Python] No checkpoint found; using random initialization.")
+        return
+    ckpt = torch.load(ckpt_path, map_location="cpu")
+    state = ckpt.get("model_state", ckpt)
+    model_state = model.state_dict()
+    new_state = {}
+    for k, v in state.items():
+        if k in model_state and v.ndim > 1:
+            target_shape = model_state[k].shape
+            slices = tuple(slice(0, min(a, b)) for a, b in zip(target_shape, v.shape))
+            new_state[k] = v[slices].clone()
+            print(f"[Python] Sliced {k}: {v.shape} → {target_shape}")
+        elif k in model_state:
+            new_state[k] = v.flatten()[:model_state[k].numel()].view_as(model_state[k])
+        else:
+            print(f"[Python] Skipping {k}")
+    model.load_state_dict(new_state, strict=False)
+    print("[Python] Loaded checkpoint with sliced channel alignment.")
+
+# ----------------------------------------------------
+# Initialize model
+# ----------------------------------------------------
+model = Simple4DUNet_Slim(c_in=7, c_mid=16, dim=4).to(device)
+load_sliced_weights(model, "model_final.pt")
 model.eval()
-print(f"[Python] Loaded model from {model_path}")
 
 # ----------------------------------------------------
 # Shared memory helper
 # ----------------------------------------------------
 def open_shm(name, size, dtype):
-    """Open existing shared memory by name and return ndarray + mmap handle."""
     f = mmap.mmap(-1, size, name)
-    arr = np.ndarray(shape=(size // np.dtype(dtype).itemsize,), dtype=dtype, buffer=f)
+    arr = np.ndarray((size // np.dtype(dtype).itemsize,), dtype=dtype, buffer=f)
     return arr, f
 
 # ----------------------------------------------------
@@ -128,12 +151,11 @@ while RUNNING:
 
         coords = torch.from_numpy(coords_np.reshape(ncoords, coord_dim)).to(device)
         feats  = torch.from_numpy(feats_np.reshape(ncoords, nfeats)).to(device)
-
         batch_col = torch.zeros((ncoords, 1), dtype=torch.int32, device=device)
         coords_me = torch.cat([batch_col, coords], dim=1)
+
         st = ME.SparseTensor(features=feats, coordinates=coords_me, device=device)
 
-        # --- Perform inference ---
         with torch.no_grad():
             start = time()
             logits = model(st).F
@@ -143,24 +165,13 @@ while RUNNING:
         print(f"[Python] Inference OK ({ncoords} voxels) in {dur:.2f} ms")
 
         out_bytes = ncoords * 4
-
-        # IMPORTANT: Open the *existing* mapping created by C++
-        # Use READ|WRITE to be compatible with FILE_MAP_ALL_ACCESS on Windows
-        try:
-            out_map = mmap.mmap(-1, out_bytes, out_name, access=mmap.ACCESS_WRITE)
-        except PermissionError:
-            out_map = mmap.mmap(-1, out_bytes, out_name, access=mmap.ACCESS_READ | mmap.ACCESS_WRITE)
-
+        out_map = mmap.mmap(-1, out_bytes, out_name, access=mmap.ACCESS_WRITE)
         np.ndarray((ncoords,), dtype=np.float32, buffer=out_map)[:] = probs
         out_map.flush()
 
-        # Send acknowledgment before closing handles
         socket.send_json({"status": "ok", "nbytes": out_bytes})
-
-        # Close input maps only
         feats_map.close()
         coords_map.close()
-        # Leave out_map open until C++ closes its handle
 
     except zmq.Again:
         continue

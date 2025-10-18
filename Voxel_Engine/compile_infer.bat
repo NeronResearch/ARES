@@ -1,0 +1,1 @@
+g++ -std=c++17 -O3 -march=native -DNDEBUG src/main_infer.cpp src/PixelMotion.cpp src/Scenario.cpp src/Camera.cpp src/Target.cpp -o bin/main_infer.exe -lm -lzmq

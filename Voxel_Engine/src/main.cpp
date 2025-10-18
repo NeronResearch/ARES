@@ -97,11 +97,17 @@ int main(int argc, char** argv) {
     // Performance analysis
     size_t totalVoxels = sparseVoxelGrid1.getMaxVoxelCount();
     size_t activeVoxels = sparseVoxelGrid1.getActiveVoxelCount();
-    size_t memoryUsageMb = (activeVoxels * (sizeof(Voxel) + sizeof(size_t))) / (1024 * 1024);
+    size_t memoryUsageBytes = activeVoxels * (sizeof(Voxel) + sizeof(size_t));
+    size_t memoryUsageKb = memoryUsageBytes / 1024;
+    size_t memoryUsageMb = memoryUsageBytes / (1024 * 1024);
     float sparsityRatio = sparseVoxelGrid1.getSparsityRatio();
 
     std::cout << "\n=== PERFORMANCE METRICS ===\n";
-    std::cout << "Memory usage: " << memoryUsageMb << "MB\n";
+    if (memoryUsageMb < 1) {
+        std::cout << "Memory usage: " << memoryUsageKb << "KB\n";
+    } else {
+        std::cout << "Memory usage: " << memoryUsageMb << "MB\n";
+    }
     std::cout << "Sparsity: " << std::fixed << std::setprecision(2) << (sparsityRatio * 100) << "% empty space\n";
     std::cout << "Active voxels: " << activeVoxels << " / " << totalVoxels << "\n";
 

@@ -40,6 +40,10 @@ public:
         SparseCoord(int x_, int y_, int z_, int sx_, int sy_) 
             : x(x_), y(y_), z(z_), linearIndex((static_cast<size_t>(z_) * sy_ + y_) * sx_ + x_) {}
     };
+
+    void clearAndReserveForReduction() {
+        sparseVoxels.clear();
+    }
     
     // API compatibility with dense VoxelGrid
     inline Voxel& at(const XYZ& worldCoords) {
@@ -153,6 +157,26 @@ public:
         }
         return features;
     }
+
+
+    // Emplace voxel directly from a linear index (no hashing math in loop)
+    Voxel& emplaceByLinearIndex(size_t linearIdx) {
+        auto [it, inserted] = sparseVoxels.emplace(linearIdx, Voxel());
+        if (inserted) {
+            const int z = static_cast<int>(linearIdx / (sx * sy));
+            const int yz = static_cast<int>(linearIdx % (sx * sy));
+            const int y = yz / sx;
+            const int x = yz % sx;
+
+            it->second.setPosition(XYZ(
+                origin.getX() + x * voxelSize + voxelSize * 0.5f,
+                origin.getY() + y * voxelSize + voxelSize * 0.5f,
+                origin.getZ() + z * voxelSize + voxelSize * 0.5f
+            ));
+        }
+        return it->second;
+    }
+
 
 private:
     XYZ size, origin;
