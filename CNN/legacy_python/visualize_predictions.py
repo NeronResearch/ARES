@@ -55,7 +55,10 @@ def visualize_frame_with_heatmap(npz_path: str, frames_dir: str, frame_name: str
     coords_all = pred_data["coords"]  # shape [N,4]
     probs_all = pred_data["probs"]    # shape [N]
     # Only keep predictions for the last frame (t=9)
-    last_frame_mask = coords_all[:, 3] == 9
+    # Determine max temporal index in the prediction file (handles 3-frame or 10-frame)
+    t_max = int(coords_all[:, 3].max())
+    last_frame_mask = coords_all[:, 3] == t_max
+
     pred_coords = coords_all[last_frame_mask, :3].astype(int)
     pred_probs = probs_all[last_frame_mask].astype(np.float32)
 
@@ -184,7 +187,7 @@ def visualize_frame_with_heatmap(npz_path: str, frames_dir: str, frame_name: str
 
 if __name__ == "__main__":
     visualize_frame_with_heatmap(
-        npz_path="predictions_clip.npz",
+        npz_path="C:\\Users\\Connor\\Downloads\\predictions_clip_3.npz",
         frames_dir=r"E:\Code\Neron\ARES\Frames\FernBellPark",
         frame_name="0125.json",
         sigma=2.0
